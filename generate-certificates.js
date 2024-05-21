@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import fs from 'fs';
 import { createCA, createCert } from 'mkcert'
 import path from 'path';

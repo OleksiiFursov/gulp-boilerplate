@@ -19,12 +19,10 @@ export const clearBuild = done => {
 }
 
 export const generateHTML = () =>
-  gulp.src(['./src/html/**/*.html', '!./src/html/part/*.html', '!./src/html/blocks/*.html'])
+  gulp.src(['./src/html/**/*.html', '!./src/html/part/*.html', '!./src/html/blocks/*.html', '!./src/html/blocks/**/*.html', '!./src/html/pages/**/*.html'])
       .pipe(changed(getBuildDir()))
       .pipe(plumber(plumberNotify('HTML')))
       .pipe(fileInclude({ context: config }))
-      .pipe(gulp.dest(getBuildDir()))
-      .pipe(server.stream())
 
 export const generateFonts = () =>
   gulp.src('./src/fonts/**/*')
