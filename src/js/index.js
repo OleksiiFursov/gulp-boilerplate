@@ -29,3 +29,4 @@ $e(".header-burger", "click", () => {
 $o(".page-top", e => {
 	bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
 });
+

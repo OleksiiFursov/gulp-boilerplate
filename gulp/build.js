@@ -26,11 +26,12 @@ import webp from 'gulp-webp';
 import cssnano from 'gulp-cssnano';
 import gulpIf from 'gulp-if';
 import realFavicon from "gulp-real-favicon";
+import { getBuildDir } from './tools.js'
 
 gulp.task('clean:build', function (done) {
-	if (fs.existsSync('./build/')) {
+	if (fs.existsSync(getBuildDir())) {
 		return gulp
-		.src('./build/', { read: false })
+		.src(getBuildDir(), { read: false })
 		.pipe(clean({ force: true }));
 	}
 	done();
@@ -54,58 +55,58 @@ const plumberNotify = (title) => {
 gulp.task('html:build', function () {
 	return gulp
 	.src(['./src/html/**/*.html', '!./src/html/part/*.html', '!./src/html/blocks/*.html', '!./src/html/blocks/**/*.html', '!./src/html/pages/**/*.html'])
-	.pipe(changed('./build/'))
+	.pipe(changed(getBuildDir()))
 	.pipe(plumber(plumberNotify('HTML')))
 	.pipe(fileInclude(fileIncludeSetting))
 	.pipe(htmlClean())
 	// .pipe(webpHTML())
-	.pipe(gulp.dest('./build/'));
+	.pipe(gulp.dest(getBuildDir()));
 });
 
 gulp.task('sass:build', function () {
 	return gulp
 	.src('./src/scss/*.scss')
-	.pipe(changed('./build/css/'))
+	.pipe(changed(`./${config.FOLDER_BUILD}/css/`))
 	.pipe(plumber(plumberNotify('SCSS')))
 	.pipe(sourceMaps.init())
 	.pipe(sassGlob())
 	.pipe(sass())
 	.pipe(sourceMaps.write())
 	.pipe(gulpIf('*.css', cssnano()))
-	.pipe(gulp.dest('./build/css/'));
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/css/`));
 });
 
 gulp.task('images:build', function () {
 	return gulp
 	.src('./src/img/**/*')
-	.pipe(changed('./build/img/'))
+	.pipe(changed(`./${config.FOLDER_BUILD}/img/`))
 	// .pipe(webp())
-	.pipe(gulp.dest('./build/img/'))
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/img/`))
 	.pipe(gulp.src('./src/img/**/*'))
-	.pipe(changed('./build/img/'))
+	.pipe(changed(`./${config.FOLDER_BUILD}/img/`))
 	.pipe(imagemin({ verbose: true }))
-	.pipe(gulp.dest('./build/img/'));
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/img/`));
 });
 
 gulp.task('fonts:build', function () {
 	return gulp
 	.src('./src/fonts/**/*')
-	.pipe(changed('./build/fonts/'))
-	.pipe(gulp.dest('./build/fonts/'));
+	.pipe(changed(`./${config.FOLDER_BUILD}/fonts/`))
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/fonts/`));
 });
 
 gulp.task('pwa:build', function () {
 	return gulp
 	.src(['./src/*.png', './src/*.ico', './src/*.webmanifest', './src/**/*.htaccess'])
-	.pipe(changed('./build/'))
-	.pipe(gulp.dest('./build/'));
+	.pipe(changed(getBuildDir()))
+	.pipe(gulp.dest(getBuildDir()));
 });
 
 gulp.task('files:build', function () {
 	return gulp
 	.src('./src/files/**/*')
-	.pipe(changed('./build/files/'))
-	.pipe(gulp.dest('./build/files/'));
+	.pipe(changed(`./${config.FOLDER_BUILD}/files/`))
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/files/`));
 });
 
 gulp.task('generate-webmanifest', function (done) {
@@ -204,7 +205,7 @@ gulp.task('generate-favicon', function (done) {
 gulp.task('inject-favicon-markups', function () {
 	return gulp.src(['./src/html/**/*.html'])
 		.pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
-		.pipe(gulp.dest('./build/'));
+		.pipe(gulp.dest(getBuildDir()));
 });
 
 // Задача для проверки обновлений у RealFaviconGenerator
@@ -222,9 +223,9 @@ gulp.task('check-for-favicon-update', function (done) {
 gulp.task('js:build', function () {
 	return gulp
 	.src('./src/js/*.js')
-	.pipe(changed('./build/js/'))
+	.pipe(changed(`./${config.FOLDER_BUILD}/js/`))
 	.pipe(plumber(plumberNotify('JS')))
 	.pipe(babel())
 	.pipe(webpack(webpackConfig))
-	.pipe(gulp.dest('./build/js/'));
+	.pipe(gulp.dest(`./${config.FOLDER_BUILD}/js/`));
 });

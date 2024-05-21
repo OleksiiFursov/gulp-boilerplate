@@ -4,6 +4,7 @@
 	"devDependencies": {
 		"@babel/core": "7.24.5",
 		"@babel/preset-env": "^7.24.5",
+		"browser-sync": "^3.0.2",
 		"css-loader": "^7.1.1",
 		"gulp": "^5.0.0",
 		"gulp-babel": "^8.0.0",
@@ -17,16 +18,15 @@
 		"gulp-imagemin": "^9.1.0",
 		"gulp-notify": "^4.0.0",
 		"gulp-plumber": "^1.2.1",
+		"gulp-real-favicon": "^0.3.2",
 		"gulp-sass": "^5.1.0",
 		"gulp-sass-glob": "^1.1.0",
-		"gulp-server-livereload": "^1.9.2",
 		"gulp-sourcemaps": "^3.0.0",
 		"gulp-webp": "^5.0.0",
-		"gulp-real-favicon": "^0.3.2",
 		"gulp-webp-css": "^1.1.0",
 		"gulp-webp-html": "^1.0.2",
 		"gulp-webp-html-fix": "^1.0.3",
-		"ip": "^2.0.1",
+		"localtunnel": "^2.0.2",
 		"sass": "^1.77.2",
 		"style-loader": "^4.0.0",
 		"webpack-stream": "^7.0.0"
@@ -35,7 +35,8 @@
 	"scripts": {
 		"dev": "gulp",
 		"build": "gulp build",
-		"reinstal_gulp": "npm uninstall -g gulp npm install -g gulp"
+		"generate-certificates": "node generate-certificates.js",
+		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp"
 	},
 	"babel": {
 		"presets": [
@@ -46,7 +47,7 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.12"
-
+		"@crossfox/css-start": "^1.0.12",
+		"mkcert": "^3.2.0"
 	}
 }

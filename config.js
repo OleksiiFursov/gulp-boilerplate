@@ -1,5 +1,5 @@
 export default {
-	TITLE: 'Crossfox gulp-boirplate',
+	TITLE: '3Crossfox gulp-boirplate',
 	URL: 'https://crossfox.dev',
 	FOOTER_YEAR: 2024,
 	LANG: 'en',
@@ -21,4 +21,11 @@ export default {
 	//DESIGNED:
 	THEME_COLOR: '#ff9800',
 	THEME_BACKGROUND: '#111',
+
+
+	// SERVER:
+	FOLDER_BUILD: 'build',
+	HTTPS: true,
+	PORT: 777,
+	TUNNEL: false
 }

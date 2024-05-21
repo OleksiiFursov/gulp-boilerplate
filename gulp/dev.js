@@ -1,121 +1,87 @@
-import gulp from 'gulp';
-import fileInclude from 'gulp-file-include';
-import sass from 'gulp-sass';
-import  * as dartSass from 'sass';
-import sassGlob from 'gulp-sass-glob';
-import server from 'gulp-server-livereload';
-import clean from 'gulp-clean';
-import fs from 'fs';
-import sourceMaps from 'gulp-sourcemaps';
-import plumber from 'gulp-plumber';
-import notify from 'gulp-notify';
-import changed from 'gulp-changed';
-import ip from 'ip';
+import fs from 'fs'
+import gulp from 'gulp'
+import sass from 'gulp-sass'
+import path from 'path'
+import * as dartSass from 'sass'
+import sassGlob from 'gulp-sass-glob'
+import browserSync from 'browser-sync'
+import sourceMaps from 'gulp-sourcemaps'
+import plumber from 'gulp-plumber'
+import changed from 'gulp-changed'
+
 import config from '../config.js'
+import { clearBuild, generateFiles, generateFonts, generateHTML } from './task.js'
+import { getBuildDir, plumberNotify } from './tools.js'
 
-//import webpack from 'webpack-stream';
+const sassCompiler = sass(dartSass)
+const server = browserSync.create()
 
-const sassCompiler = sass(dartSass);
+gulp.task('clean:dev', clearBuild)
+gulp.task('html:dev', generateHTML)
+gulp.task('fonts:dev', generateFonts)
+gulp.task('files:dev', generateFiles)
 
-gulp.task('clean:dev', function (done) {
-	if (fs.existsSync('./build/')) {
-		return gulp
-		.src('./build/', { read: false })
-		.pipe(clean({ force: true }));
+gulp.task('sass:dev', () =>
+  gulp.src('./src/scss/*.scss')
+      .pipe(changed(getBuildDir('css/')))
+      .pipe(plumber(plumberNotify('SCSS')))
+      .pipe(sourceMaps.init())
+      .pipe(sassGlob())
+      .pipe(sassCompiler())
+      .pipe(sourceMaps.write())
+      .pipe(gulp.dest(getBuildDir('css/')))
+      .pipe(server.stream()),
+)
+
+gulp.task('images:dev', () =>
+  gulp.src('./src/img/**/*')
+      .pipe(changed(getBuildDir('img/')))
+      .pipe(gulp.dest(getBuildDir('img/')))
+      .pipe(server.stream()),
+)
+
+gulp.task('pwa:dev', () =>
+  gulp.src(['./src/*.png', './src/*.ico'])
+      .pipe(changed(getBuildDir()))
+      .pipe(gulp.dest(getBuildDir()))
+      .pipe(server.stream()),
+)
+
+gulp.task('js:dev', () =>
+  gulp.src('./src/js/*.js')
+      .pipe(changed(getBuildDir('js/')))
+      .pipe(plumber(plumberNotify('JS')))
+      .pipe(gulp.dest(getBuildDir('js/')))
+      .pipe(server.stream()),
+)
+
+gulp.task('serve:dev', () => {
+	const options = {
+		server: {
+			baseDir: getBuildDir(),
+		},
+		port: config.PORT,
+		open: 'external',
+		https: config.HTTPS,
+		tunnel: config.TUNNEL,
+		notify: false,
+
 	}
-	done();
-});
+	const CERT_DIR = path.join(process.cwd(), 'ssl')
+	if (fs.existsSync(CERT_DIR) && fs.existsSync(path.join(CERT_DIR, 'key.key')) && fs.existsSync(path.join(CERT_DIR, 'cert.crt'))) {
+		options.https = {
+			key: path.join(CERT_DIR, 'key.key'),
+			cert: path.join(CERT_DIR, 'cert.crt'),
+		}
+	}
 
-const fileIncludeSetting = {
-	prefix: '@@',
-	basepath: '@file',
-	context: config
-};
+	server.init(options)
 
-const plumberNotify = (title) => {
-	return {
-		errorHandler: notify.onError({
-			title: title,
-			message: 'Error <%= error.message %>',
-			sound: false,
-		}),
-	};
-};
+	gulp.watch('./src/scss/**/*.scss', gulp.series('sass:dev'))
+	gulp.watch('./src/html/**/*.html', gulp.series('html:dev')).on('change', server.reload)
+	gulp.watch('./src/img/**/*', gulp.series('images:dev')).on('change', server.reload)
+	gulp.watch('./src/fonts/**/*', gulp.series('fonts:dev')).on('change', server.reload)
+	gulp.watch('./src/**/*.js', gulp.series('js:dev')).on('change', server.reload)
+	gulp.watch('./*.js', gulp.series('html:dev')).on('change', server.reload)
+})
 
-gulp.task('html:dev', function () {
-	return gulp
-	.src(['./src/html/**/*.html', '!./src/html/blocks/*.html'])
-	.pipe(changed('./build/'))
-	.pipe(plumber(plumberNotify('HTML')))
-	.pipe(fileInclude(fileIncludeSetting))
-	.pipe(gulp.dest('./build/'));
-});
-
-gulp.task('sass:dev', function () {
-	return gulp
-	.src('./src/scss/*.scss')
-	.pipe(changed('./build/css/'))
-	.pipe(plumber(plumberNotify('SCSS')))
-	.pipe(sourceMaps.init())
-	.pipe(sassGlob())
-	.pipe(sassCompiler())
-	.pipe(sourceMaps.write())
-	.pipe(gulp.dest('./build/css/'));
-});
-
-gulp.task('images:dev', function () {
-	return gulp
-	.src('./src/img/**/*')
-	.pipe(changed('./build/img/'))
-	.pipe(gulp.dest('./build/img/'));
-});
-
-gulp.task('fonts:dev', function () {
-	return gulp
-	.src('./src/fonts/**/*')
-	.pipe(changed('./build/fonts/'))
-	.pipe(gulp.dest('./build/fonts/'));
-});
-
-gulp.task('files:dev', function () {
-	return gulp
-	.src('./src/files/**/*')
-	.pipe(changed('./build/files/'))
-	.pipe(gulp.dest('./build/files/'));
-});
-
-gulp.task('js:dev', function () {
-	return gulp
-	.src('./src/js/*.js')
-	.pipe(changed('./build/js/'))
-	.pipe(plumber(plumberNotify('JS')))
-	// .pipe(babel())
-	// .pipe(webpack(require('./../webpack.config.js')))
-	.pipe(gulp.dest('./build/js/'));
-});
-
-gulp.task('pwa:dev', function () {
-	return gulp
-	.src(['./src/*.png', './src/*.ico', './src/*.webmanifest'])
-	.pipe(changed('./build/'))
-	.pipe(gulp.dest('./build/'));
-});
-
-gulp.task('server:dev', function () {
-	return gulp.src('./build/').pipe(server({
-		host: ip.address(),
-		livereload: true,
-		https: true,
-		open: true,
-		port: 8080,
-	}));
-});
-
-gulp.task('watch:dev', function () {
-	gulp.watch('./src/scss/**/*.scss', gulp.parallel('sass:dev'));
-	gulp.watch('./src/html/**/*.html', gulp.parallel('html:dev'));
-	gulp.watch('./src/img/**/*', gulp.parallel('images:dev'));
-	gulp.watch('./src/fonts/**/*', gulp.parallel('fonts:dev'));
-	gulp.watch('./src/files/**/*', gulp.parallel('files:dev'));
-	gulp.watch('./src/js/**/*.js', gulp.parallel('js:dev'));
-});
