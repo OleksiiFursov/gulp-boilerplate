@@ -3,3 +3,5 @@ package-lock.json
 /build/
 /.idea
 
+/ssl/key.key
+/ssl/cert.crt
