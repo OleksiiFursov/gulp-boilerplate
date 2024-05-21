@@ -1,5 +1,5 @@
 export default {
-	TITLE: '3Crossfox gulp-boirplate',
+	TITLE: 'Crossfox gulp-boirplate',
 	URL: 'https://crossfox.dev',
 	FOOTER_YEAR: 2024,
 	LANG: 'en',
@@ -16,7 +16,7 @@ export default {
 
 	// CONTACTS:
 	EMAIL: 'alex@crossfox.dev',
-	TELEPHONE: '<a href="tel:123456789">+1 234 567 89',
+	TELEPHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 
 	//DESIGNED:
 	THEME_COLOR: '#ff9800',
