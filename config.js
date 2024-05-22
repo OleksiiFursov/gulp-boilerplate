@@ -1,5 +1,5 @@
 export default {
-	TITLE: 'Crossfox gulp-boirplate',
+	TITLE: '22Crossfox gulp-boirplate',
 	URL: 'https://crossfox.dev',
 	FOOTER_YEAR: 2024,
 	LANG: 'en',
