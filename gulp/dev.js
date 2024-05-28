@@ -1,5 +1,5 @@
-import fs from 'fs'
 import gulp from 'gulp'
+import fs from 'fs'
 import sass from 'gulp-sass'
 import path from 'path'
 import * as dartSass from 'sass'
@@ -9,14 +9,24 @@ import sourceMaps from 'gulp-sourcemaps'
 import plumber from 'gulp-plumber'
 import changed from 'gulp-changed'
 
-import { clearBuild, generateFiles, generateFonts, generateHTML } from './task.js'
+import {clearBuild, generateFiles, generateFonts} from './task.js'
 import { getBuildDir, plumberNotify } from './tools.js'
+import fileInclude from "gulp-file-include";
 
 const sassCompiler = sass(dartSass)
 const server = browserSync.create()
 
 gulp.task('clean:dev', clearBuild)
-gulp.task('html:dev', generateHTML)
+gulp.task('html:dev',  async ()=> {
+	const {default: config} = await import(`../config.js?v=${Date.now()}`);
+
+	return gulp.src(['./src/html/**/*.html'])
+		.pipe(plumber(plumberNotify('HTML')))
+		.pipe(fileInclude({context: config}))
+		.pipe(gulp.dest(getBuildDir()))
+		.pipe(server.stream())
+});
+
 gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
 

@@ -7,7 +7,6 @@ import fileInclude from 'gulp-file-include'
 import plumber from 'gulp-plumber'
 import { getBuildDir, plumberNotify } from './tools.js'
 
-const server = browserSync.create()
 export const clearBuild = done => {
 	if (fs.existsSync(getBuildDir())) {
 		return gulp
@@ -16,16 +15,16 @@ export const clearBuild = done => {
 	}
 	done()
 }
-
-export const generateHTML = async () => {
-	const { default: config } = await import(`../config.js?v=${Date.now()}`)
-	return gulp.src(['./src/html/**/*.html', '!./src/html/part/*.html', '!./src/html/blocks/*.html'])
-	           .pipe(changed(getBuildDir()))
-	           .pipe(plumber(plumberNotify('HTML')))
-	           .pipe(fileInclude({ context: config }))
-	           .pipe(gulp.dest(getBuildDir()))
-	           .pipe(server.stream())
-}
+// '!./src/html/part/*.html', '!./src/html/blocks/*.html'
+// export const serviceHTML = async (exclude=[]) => {
+//
+// 	return gulp.src(['./src/html/**/*.html',...exclude])
+// 	           .pipe(changed(getBuildDir()))
+// 	           .pipe(plumber(plumberNotify('HTML')))
+// 	           .pipe(fileInclude({ context: config }))
+// 	           .pipe(gulp.dest(getBuildDir()))
+//
+// }
 
 export const generateFonts = () =>
   gulp.src('./src/fonts/**/*')
@@ -41,5 +40,4 @@ export const generatePWA = () =>
   gulp.src(['./src/*.png', './src/*.ico', './src/*.webmanifest'])
       .pipe(changed(getBuildDir()))
       .pipe(gulp.dest(getBuildDir()))
-      .pipe(server.stream())
 
