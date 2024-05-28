@@ -73,7 +73,7 @@ gulp.task('serve:dev', async  () => {
 			baseDir: getBuildDir(),
 		},
 		port: config.PORT,
-		open: 'external',
+		open: false,//'external',
 		https: config.HTTPS,
 		tunnel: config.TUNNEL,
 		notify: false,
@@ -90,7 +90,7 @@ gulp.task('serve:dev', async  () => {
 	server.init(options)
 
 	gulp.watch('./src/scss/**/*.scss', gulp.series('sass:dev'))
-	gulp.watch('./src/html/**/*.html', gulp.series('html:dev')).on('change', server.reload)
+	gulp.watch('./src/html/**/*.html', gulp.series('html:dev'))
 	gulp.watch('./src/img/**/*', gulp.series('images:dev')).on('change', server.reload)
 	gulp.watch('./src/fonts/**/*', gulp.series('fonts:dev')).on('change', server.reload)
 	gulp.watch('./src/**/*.js', gulp.series('js:dev')).on('change', server.reload)
