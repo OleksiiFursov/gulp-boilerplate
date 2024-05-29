@@ -16,14 +16,16 @@ export default {
 
 	// CONTACTS:
 	EMAIL: 'alex@crossfox.dev',
-	TELEPHONE: '<a href="tel:123456789">+1 234 567 89</a>',
+	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 
 	//DESIGNED:
 	THEME_COLOR: '#ff9800',
 	THEME_BACKGROUND: '#111',
 
 	// SERVER:
-	FOLDER_BUILD: 'build',
+	FOLDER_BUILD: './build',
+	FOLDER_SOURCE: './src',
+	SERVER_OPEN: false,//'external',
 	HTTPS: true,
 	PORT: 777,
 	TUNNEL: false
