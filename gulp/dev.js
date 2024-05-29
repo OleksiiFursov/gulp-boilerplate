@@ -9,23 +9,24 @@ import sourceMaps from 'gulp-sourcemaps'
 import plumber from 'gulp-plumber'
 import changed from 'gulp-changed'
 
-import {clearBuild, generateFiles, generateFonts} from './task.js'
-import { getBuildDir, plumberNotify } from './tools.js'
-import fileInclude from "gulp-file-include";
+import { clearBuild, generateFiles, generateFonts } from './task.js'
+import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
+import config from "../config.js";
+import fileInclude from 'gulp-file-include'
 
 const sassCompiler = sass(dartSass)
 const server = browserSync.create()
 
 gulp.task('clean:dev', clearBuild)
-gulp.task('html:dev',  async ()=> {
-	const {default: config} = await import(`../config.js?v=${Date.now()}`);
+gulp.task('html:dev', async () => {
 
-	return gulp.src(['./src/html/**/*.html'])
-		.pipe(plumber(plumberNotify('HTML')))
-		.pipe(fileInclude({context: config}))
-		.pipe(gulp.dest(getBuildDir()))
-		.pipe(server.stream())
-});
+	return gulp.src([getSrcDir('html/**/*.html')])
+	           .pipe(plumber(plumberNotify('HTML')))
+	           .pipe(changed(getBuildDir(), { extension: '.html' }))
+	           .pipe(fileInclude({ context: await getConfig() }))
+	           .pipe(gulp.dest(getBuildDir()))
+	           .pipe(server.stream())
+})
 
 gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
@@ -64,16 +65,13 @@ gulp.task('js:dev', () =>
       .pipe(server.stream()),
 )
 
-gulp.task('serve:dev', async  () => {
-
-	const { default: config } = await import(`../config.js`);
-
+gulp.task('serve:dev', async () => {
 	const options = {
 		server: {
 			baseDir: getBuildDir(),
 		},
 		port: config.PORT,
-		open: false,//'external',
+		open: config.SERVER_OPEN,
 		https: config.HTTPS,
 		tunnel: config.TUNNEL,
 		notify: false,
