@@ -22,7 +22,6 @@ gulp.task('html:dev', async () => {
 
 	return gulp.src([getSrcDir('html/**/*.html')])
 	           .pipe(plumber(plumberNotify('HTML')))
-	           .pipe(changed(getBuildDir(), { extension: '.html' }))
 	           .pipe(fileInclude({ context: await getConfig() }))
 	           .pipe(gulp.dest(getBuildDir()))
 	           .pipe(server.stream())
