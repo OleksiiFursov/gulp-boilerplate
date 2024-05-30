@@ -9,7 +9,7 @@ import sourceMaps from 'gulp-sourcemaps'
 import plumber from 'gulp-plumber'
 import changed from 'gulp-changed'
 
-import { clearBuild, generateFiles, generateFonts } from './task.js'
+import {clearBuild, generateFiles, generateFonts, generatePWA} from './task.js'
 import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
 import config from "../config.js";
 import fileInclude from 'gulp-file-include'
@@ -18,14 +18,12 @@ const sassCompiler = sass(dartSass)
 const server = browserSync.create()
 
 gulp.task('clean:dev', clearBuild)
-gulp.task('html:dev', async () => {
-
-	return gulp.src([getSrcDir('html/**/*.html')])
-	           .pipe(plumber(plumberNotify('HTML')))
-	           .pipe(fileInclude({ context: await getConfig() }))
-	           .pipe(gulp.dest(getBuildDir()))
-	           .pipe(server.stream())
-})
+gulp.task('html:dev', async () => gulp.src(getSrcDir('html/**/*.html'))
+	.pipe(plumber(plumberNotify('HTML')))
+	.pipe(fileInclude({ context: await getConfig() }))
+	.pipe(gulp.dest(getBuildDir()))
+	.pipe(server.stream())
+)
 
 gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
@@ -49,12 +47,7 @@ gulp.task('images:dev', () =>
       .pipe(server.stream()),
 )
 
-gulp.task('pwa:dev', () =>
-  gulp.src(['./src/*.png', './src/*.ico'])
-      .pipe(changed(getBuildDir()))
-      .pipe(gulp.dest(getBuildDir()))
-      .pipe(server.stream()),
-)
+gulp.task('pwa:dev', () => generatePWA().pipe(server.stream()))
 
 gulp.task('js:dev', () =>
   gulp.src('./src/js/*.js')
@@ -86,11 +79,11 @@ gulp.task('serve:dev', async () => {
 
 	server.init(options)
 
-	gulp.watch('./src/scss/**/*.scss', gulp.series('sass:dev'))
-	gulp.watch('./src/html/**/*.html', gulp.series('html:dev'))
-	gulp.watch('./src/img/**/*', gulp.series('images:dev')).on('change', server.reload)
-	gulp.watch('./src/fonts/**/*', gulp.series('fonts:dev')).on('change', server.reload)
-	gulp.watch('./src/**/*.js', gulp.series('js:dev')).on('change', server.reload)
+	gulp.watch(getSrcDir('scss/**/*.scss'), gulp.series('sass:dev'))
+	gulp.watch(getSrcDir('html/**/*.html'), gulp.series('html:dev'))
+	gulp.watch(getSrcDir('img/**/*'), gulp.series('images:dev')).on('change', server.reload)
+	gulp.watch(getSrcDir('fonts/**/*'), gulp.series('fonts:dev')).on('change', server.reload)
+	gulp.watch(getSrcDir('**/*.js'), gulp.series('js:dev')).on('change', server.reload)
 	gulp.watch('./*.js', gulp.series('html:dev')).on('change', server.reload)
 })
 

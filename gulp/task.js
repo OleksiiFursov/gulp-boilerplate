@@ -1,11 +1,8 @@
-import browserSync from 'browser-sync'
 import fs from 'fs'
 import gulp from 'gulp'
 import changed from 'gulp-changed'
 import clean from 'gulp-clean'
-import fileInclude from 'gulp-file-include'
-import plumber from 'gulp-plumber'
-import { getBuildDir, plumberNotify } from './tools.js'
+import {getBuildDir} from './tools.js'
 
 export const clearBuild = done => {
 	if (fs.existsSync(getBuildDir())) {
@@ -16,15 +13,7 @@ export const clearBuild = done => {
 	done()
 }
 // '!./src/html/part/*.html', '!./src/html/blocks/*.html'
-// export const serviceHTML = async (exclude=[]) => {
-//
-// 	return gulp.src(['./src/html/**/*.html',...exclude])
-// 	           .pipe(changed(getBuildDir()))
-// 	           .pipe(plumber(plumberNotify('HTML')))
-// 	           .pipe(fileInclude({ context: config }))
-// 	           .pipe(gulp.dest(getBuildDir()))
-//
-// }
+
 
 export const generateFonts = () =>
   gulp.src('./src/fonts/**/*')
