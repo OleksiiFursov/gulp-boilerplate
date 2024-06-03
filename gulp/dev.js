@@ -29,7 +29,7 @@ gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
 
 gulp.task('sass:dev', () =>
-  gulp.src('./src/scss/*.scss')
+  gulp.src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
@@ -41,7 +41,7 @@ gulp.task('sass:dev', () =>
 )
 
 gulp.task('images:dev', () =>
-  gulp.src('./src/img/**/*')
+  gulp.src(getSrcDir('img/**/*'))
       .pipe(changed(getBuildDir('img/')))
       .pipe(gulp.dest(getBuildDir('img/')))
       .pipe(server.stream()),
@@ -50,7 +50,7 @@ gulp.task('images:dev', () =>
 gulp.task('pwa:dev', () => generatePWA().pipe(server.stream()))
 
 gulp.task('js:dev', () =>
-  gulp.src('./src/js/*.js')
+  gulp.src(getSrcDir('/js/*.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
       .pipe(gulp.dest(getBuildDir('js/')))
