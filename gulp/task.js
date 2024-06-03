@@ -13,16 +13,16 @@ export const clearBuild = done => {
 }
 
 export const generateFonts = () =>
-  gulp.src(getSrcDir('fonts/**/*'))
+  gulp.src(getSrcDir('fonts/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('fonts/')))
       .pipe(gulp.dest(getBuildDir('fonts/')))
 
 export const generateFiles = () =>
-  gulp.src(getSrcDir('files/**/*'))
+  gulp.src(getSrcDir('files/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('files/')))
       .pipe(gulp.dest(getBuildDir('files/')))
 
-export const generatePWA = () =>
+export const movePWA = () =>
   gulp.src(['*.png', '*.ico', '.*.webmanifest'].map(getSrcDir))
       .pipe(changed(getBuildDir()))
       .pipe(gulp.dest(getBuildDir()))

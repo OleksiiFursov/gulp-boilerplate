@@ -9,7 +9,7 @@ import sourceMaps from 'gulp-sourcemaps'
 import plumber from 'gulp-plumber'
 import changed from 'gulp-changed'
 
-import {clearBuild, generateFiles, generateFonts, generatePWA} from './task.js'
+import {clearBuild, generateFiles, generateFonts, movePWA} from './task.js'
 import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
 import config from "../config.js";
 import fileInclude from 'gulp-file-include'
@@ -27,6 +27,7 @@ gulp.task('html:dev', async () => gulp.src(getSrcDir('html/**/*.html'))
 
 gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
+gulp.task('pwa:dev', () => movePWA().pipe(server.stream()))
 
 gulp.task('sass:dev', () =>
   gulp.src(getSrcDir('scss/*.scss'))
@@ -41,13 +42,11 @@ gulp.task('sass:dev', () =>
 )
 
 gulp.task('images:dev', () =>
-  gulp.src(getSrcDir('img/**/*'))
+  gulp.src(getSrcDir('img/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('img/')))
       .pipe(gulp.dest(getBuildDir('img/')))
       .pipe(server.stream()),
 )
-
-gulp.task('pwa:dev', () => generatePWA().pipe(server.stream()))
 
 gulp.task('js:dev', () =>
   gulp.src(getSrcDir('/js/*.js'))
