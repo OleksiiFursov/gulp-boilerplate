@@ -9,7 +9,13 @@ import sourceMaps from 'gulp-sourcemaps'
 import plumber from 'gulp-plumber'
 import changed from 'gulp-changed'
 
-import {clearBuild, generateFiles, generateFonts, movePWA} from './task.js'
+import {
+	clearBuild,
+	generateFavicon,
+	generateFiles,
+	generateFonts,
+	movePWA,
+} from './task.js'
 import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
 import config from "../config.js";
 import fileInclude from 'gulp-file-include'
@@ -56,6 +62,8 @@ gulp.task('js:dev', () =>
       .pipe(gulp.dest(getBuildDir('js/')))
       .pipe(server.stream()),
 )
+
+gulp.task('generate-favicon', done => generateFavicon(done, false))
 
 gulp.task('serve:dev', async () => {
 	const options = {
