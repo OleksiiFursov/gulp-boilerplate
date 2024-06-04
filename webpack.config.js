@@ -1,7 +1,9 @@
+import { getSrcDir } from './gulp/tools.js'
+
 export default {
 	mode: 'production',
 	entry: {
-		index: './src/js/index.js'
+		index: getSrcDir('js/index.js')
 	},
 	output: {
 		filename: '[name].js',

@@ -17,6 +17,7 @@ export default {
 	// CONTACTS:
 	EMAIL: 'alex@crossfox.dev',
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
+	AUTHOR: 'Oleksii Fursov',
 
 	//DESIGNED:
 	THEME_COLOR: '#ff9800',
