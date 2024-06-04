@@ -18,7 +18,8 @@ const sassCompiler = sass(dartSass)
 const server = browserSync.create()
 
 gulp.task('clean:dev', clearBuild)
-gulp.task('html:dev', async () => gulp.src(getSrcDir('html/**/*.html'))
+gulp.task('html:dev', async () =>
+  gulp.src(getSrcDir('html/**/*.html'))
 	.pipe(plumber(plumberNotify('HTML')))
 	.pipe(fileInclude({ context: await getConfig() }))
 	.pipe(gulp.dest(getBuildDir()))
@@ -79,7 +80,7 @@ gulp.task('serve:dev', async () => {
 	server.init(options)
 
 	gulp.watch(getSrcDir('scss/**/*.scss'), gulp.series('sass:dev'))
-	gulp.watch(getSrcDir('html/**/*.html'), gulp.series('html:dev'))
+	gulp.watch(getSrcDir('html/**/*.html'), gulp.series('html:dev')).on('change', server.reload)
 	gulp.watch(getSrcDir('img/**/*'), gulp.series('images:dev')).on('change', server.reload)
 	gulp.watch(getSrcDir('fonts/**/*'), gulp.series('fonts:dev')).on('change', server.reload)
 	gulp.watch(getSrcDir('**/*.js'), gulp.series('js:dev')).on('change', server.reload)
