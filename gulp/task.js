@@ -33,7 +33,7 @@ export const movePWA = () =>
 export const generateFavicon = (done, check=true) =>  {
 	const logoPath = getSrcDir('img/cf-favicon.png');
 
-	if (fs.existsSync(logoPath) && fs.existsSync(getSrcDir('pwa'))) {
+	if (fs.existsSync(logoPath)) {
 		realFavicon.generateFavicon({
 			masterPicture: logoPath,
 			dest: getBuildDir('pwa'),
