@@ -1,31 +1,25 @@
 import gulp from 'gulp'
-import Config from '../config.js'
-import config from '../config.js'
+import babel from 'gulp-babel'
+import changed from 'gulp-changed'
+import cssnano from 'gulp-cssnano'
+
 // HTML
 import fileInclude from 'gulp-file-include'
 import htmlClean from 'gulp-htmlclean'
-import webpHTML from 'gulp-webp-html'
-import webpackConfig from '../webpack.config.js'
-// SASS
-import * as dartSass from 'sass'
-import gulpSass from 'gulp-sass'
-
-const sass = gulpSass(dartSass)
-import sassGlob from 'gulp-sass-glob'
-
-import fs from 'fs'
-import sourceMaps from 'gulp-sourcemaps'
-import plumber from 'gulp-plumber'
-import webpack from 'webpack-stream'
-import babel from 'gulp-babel'
-import changed from 'gulp-changed'
+import gulpIf from 'gulp-if'
 
 // Images
 import imagemin from 'gulp-imagemin'
+import plumber from 'gulp-plumber'
+import gulpSass from 'gulp-sass'
+import sassGlob from 'gulp-sass-glob'
+import sourceMaps from 'gulp-sourcemaps'
 import webp from 'gulp-webp'
-import cssnano from 'gulp-cssnano'
-import gulpIf from 'gulp-if'
-import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
+import webpHTML from 'gulp-webp-html'
+// SASS
+import * as dartSass from 'sass'
+import webpack from 'webpack-stream'
+import webpackConfig from '../webpack.config.js'
 import {
 	clearBuild,
 	generateFavicon,
@@ -33,6 +27,9 @@ import {
 	generateFonts,
 	movePWA,
 } from './task.js'
+import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
+
+const sass = gulpSass(dartSass)
 
 gulp.task('clean:build', clearBuild)
 gulp.task('fonts:build', generateFonts)

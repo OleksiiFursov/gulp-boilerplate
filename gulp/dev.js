@@ -1,13 +1,15 @@
-import gulp from 'gulp'
+import browserSync from 'browser-sync'
 import fs from 'fs'
+import gulp from 'gulp'
+import changed from 'gulp-changed'
+import fileInclude from 'gulp-file-include'
+import plumber from 'gulp-plumber'
 import sass from 'gulp-sass'
+import sassGlob from 'gulp-sass-glob'
+import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
 import * as dartSass from 'sass'
-import sassGlob from 'gulp-sass-glob'
-import browserSync from 'browser-sync'
-import sourceMaps from 'gulp-sourcemaps'
-import plumber from 'gulp-plumber'
-import changed from 'gulp-changed'
+import config from '../config.js'
 
 import {
 	clearBuild,
@@ -17,8 +19,6 @@ import {
 	movePWA,
 } from './task.js'
 import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
-import config from "../config.js";
-import fileInclude from 'gulp-file-include'
 
 const sassCompiler = sass(dartSass)
 const server = browserSync.create()
@@ -63,7 +63,7 @@ gulp.task('js:dev', () =>
       .pipe(server.stream()),
 )
 
-gulp.task('generate-favicon', done => generateFavicon(done, false))
+gulp.task('generate-favicon', done => generateFavicon(done))
 
 gulp.task('serve:dev', async () => {
 	const options = {

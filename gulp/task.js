@@ -30,7 +30,7 @@ export const movePWA = () =>
       .pipe(gulp.dest(getBuildDir()))
 
 
-export const generateFavicon = (done, check=true) =>  {
+export const generateFavicon = done =>  {
 	const logoPath = getSrcDir('img/cf-favicon.png');
 
 	if (fs.existsSync(logoPath)) {
