@@ -35,6 +35,7 @@ export const generateFavicon = done =>  {
 
 	if (fs.existsSync(logoPath)) {
 		realFavicon.generateFavicon({
+			markupFile: getBuildDir('pwa/data.json'),
 			masterPicture: logoPath,
 			dest: getBuildDir('pwa'),
 			design: {
