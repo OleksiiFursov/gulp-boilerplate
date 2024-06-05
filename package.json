@@ -28,6 +28,7 @@
 		"gulp-webp-html-fix": "^1.0.3",
 		"localtunnel": "^2.0.2",
 		"mkcert": "^3.2.0",
+		"rimraf": "^5.0.7",
 		"sass": "^1.77.4",
 		"style-loader": "^4.0.0",
 		"webpack-stream": "^7.0.0"
@@ -37,7 +38,8 @@
 		"dev": "gulp",
 		"build": "gulp build",
 		"generate-certificates": "node generate-certificates.js",
-		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp"
+		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
+		"webpack-fix": "rimraf node_modules && rimraf package-lock.json && npm cache verify && npm install"
 	},
 	"babel": {
 		"presets": [

@@ -40,12 +40,12 @@ function compress_image($source_url, $destination_url, $width, $quality) {
 		header('Content-Type: image/png');
         imagepng($new_image, null, round(9 * $quality / 100));
     }
-  
+
 
 
 
     // Освобождаем память
     imagedestroy($image);
     imagedestroy($new_image);
+    return 1;
 }
-?>

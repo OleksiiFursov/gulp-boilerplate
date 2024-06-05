@@ -1,8 +1,8 @@
-import fs from 'fs';
+import fs from 'fs'
 import { createCA, createCert } from 'mkcert'
-import path from 'path';
-import os from 'os';
-import { fileURLToPath } from 'url';
+import os from 'os'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import config from './config.js'
 
 // Определение пути к директории сертификатов
