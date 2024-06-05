@@ -16,7 +16,6 @@
 		"gulp-htmlclean": "^2.7.22",
 		"gulp-if": "^3.0.0",
 		"gulp-imagemin": "^9.1.0",
-		"gulp-nodemon": "^2.5.0",
 		"gulp-notify": "^4.0.0",
 		"gulp-plumber": "^1.2.1",
 		"gulp-real-favicon": "^0.3.2",
