@@ -58,7 +58,7 @@ gulp.task('sass:build', () =>
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
       .pipe(sass())
-      .pipe(sourceMaps.write())
+      .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
       .pipe(gulp.dest(getBuildDir('css/'))),
 )
