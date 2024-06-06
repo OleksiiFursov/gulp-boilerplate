@@ -39,7 +39,7 @@
 		"build": "gulp build",
 		"generate-certificates": "node generate-certificates.js",
 		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
-		"webpack-fix": "rimraf node_modules && rimraf package-lock.json && npm cache verify && npm install"
+		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i"
 	},
 	"babel": {
 		"presets": [
