@@ -50,6 +50,6 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.12"
+		"@crossfox/css-start": "^1.0.13"
 	}
 }
