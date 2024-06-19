@@ -29,5 +29,5 @@ export default {
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
 	PORT: 777,
-	TUNNEL: false
+	TUNNEL: false,
 }

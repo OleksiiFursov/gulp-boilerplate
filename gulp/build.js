@@ -66,9 +66,9 @@ gulp.task('sass:build', () =>
 gulp.task('images:build', () =>
   gulp.src(getSrcDir('img/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('img/')))
-      .pipe(webp())
+      .pipe(gulpIf(file =>  file.extname !== '.svg', webp()))
       .pipe(imagemin({ verbose: true }))
-      .pipe(gulp.dest(getBuildDir('img/'))),
+      .pipe(gulp.dest(getBuildDir('img/')))
 )
 
 gulp.task('js:build', () =>
