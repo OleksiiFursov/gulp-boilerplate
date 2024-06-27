@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 
-app.get('/image/:size/:image', (req, res, next) => {
+app.get('/image/:size/:image', (req, res) => {
 	const {size, image} = req.params;
 	const imagePath = path.resolve(__dirname, 'images', image);
 

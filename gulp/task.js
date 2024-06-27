@@ -38,6 +38,7 @@ export const generateFavicon = done =>  {
 			markupFile: getBuildDir('pwa/data.json'),
 			masterPicture: logoPath,
 			dest: getBuildDir('pwa'),
+			iconsPath: '/pwa',
 			design: {
 				ios: {
 					pictureAspect: 'backgroundAndMargin',

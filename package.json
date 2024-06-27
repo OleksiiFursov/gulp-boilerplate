@@ -37,7 +37,10 @@
 	"type": "module",
 	"scripts": {
 		"dev": "gulp",
+		"with-pwa": "gulp with-pwa",
+		"nvm-20": "nvm use 20",
 		"build": "gulp build",
+		"build-full": "gulp build-full",
 		"generate-certificates": "node generate-certificates.js",
 		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
 		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i"
