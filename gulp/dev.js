@@ -9,7 +9,9 @@ import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
 import * as dartSass from 'sass'
+import webpack from 'webpack-stream'
 import config from '../config.js'
+import {webpackConfigDev} from '../webpack.config.js'
 
 import {
 	clearBuild,
@@ -59,7 +61,9 @@ gulp.task('js:dev', () =>
   gulp.src(getSrcDir('/js/*.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
+      .pipe(webpack(webpackConfigDev))
       .pipe(gulp.dest(getBuildDir('js/')))
+
       .pipe(server.stream()),
 )
 
