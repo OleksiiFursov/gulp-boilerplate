@@ -26,6 +26,7 @@ export default {
 	// SERVER:
 	FOLDER_BUILD: './build',
 	FOLDER_SOURCE: './src',
+	FOLDER_COPY: ['files'],
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
 	PORT: 777,

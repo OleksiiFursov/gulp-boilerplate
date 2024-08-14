@@ -1,18 +1,17 @@
 /* header */
 .header{
-  &>.container{
-    @extend %flex-bt;
-    padding: 2rem 0;
-  }
   @extend %pos-fix;
   transition: .4s;
   z-index: 9;
   color: $bg-color;
+  &>.container{
+    @extend %flex-bt;
+    padding: 2rem 0;
+  }
 }
 
 .header-logo {
   font-size: $font-l;
-
   font-weight: 600;
   display: flex;
   align-items: center;
