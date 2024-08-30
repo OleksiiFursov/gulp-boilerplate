@@ -31,4 +31,11 @@ export default {
 	HTTPS: true,
 	PORT: 777,
 	TUNNEL: false,
+	RENDER_HTML: [
+		'html/**/*.html',
+		'!/html/part/*.html',
+		'!html/blocks/*.html',
+		'!/html/blocks/**/*.html',
+		'!/html/pages/**/*.html',
+	]
 }

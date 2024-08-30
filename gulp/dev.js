@@ -20,14 +20,14 @@ import {
 	generateFonts,
 	movePWA,
 } from './task.js'
-import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
+import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
 const sassCompiler = sass(dartSass)
 const server = browserSync.create()
 
 gulp.task('clean:dev', clearBuild)
 gulp.task('html:dev', async () =>
-  gulp.src(getSrcDir('html/**/*.html'))
+  gulp.src(getHtmlSrc())
       .pipe(plumber(plumberNotify('HTML')))
       .pipe(fileInclude({ context: await getConfig() }))
       .pipe(gulp.dest(getBuildDir()))

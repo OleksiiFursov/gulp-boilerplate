@@ -18,6 +18,7 @@ import webpHTML from 'gulp-webp-html'
 // SASS
 import * as dartSass from 'sass'
 import webpack from 'webpack-stream'
+import config from '../config.js'
 import webpackConfig from '../webpack.config.js'
 import {
 	clearBuild,
@@ -26,7 +27,7 @@ import {
 	generateFonts,
 	movePWA,
 } from './task.js'
-import { getBuildDir, getConfig, getSrcDir, plumberNotify } from './tools.js'
+import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
 const sass = gulpSass(dartSass)
 
@@ -35,13 +36,7 @@ gulp.task('fonts:build', generateFonts)
 gulp.task('pwa:build', movePWA)
 gulp.task('files:build', generateFiles)
 gulp.task('html:build', async () =>
-  gulp.src([
-	  getSrcDir('html/**/*.html'),
-	  '!' + getSrcDir('/html/part/*.html'),
-	  '!' + getSrcDir('html/blocks/*.html'),
-	  '!' + getSrcDir('/html/blocks/**/*.html'),
-	  '!' + getSrcDir('/html/pages/**/*.html'),
-  ])
+  gulp.src(getHtmlSrc())
       .pipe(changed(getBuildDir()))
       .pipe(plumber(plumberNotify('HTML')))
       .pipe(fileInclude({ context: await getConfig() }))
