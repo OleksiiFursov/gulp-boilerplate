@@ -1,6 +1,6 @@
 export default {
 	TITLE: 'Crossfox gulp-boirplate',
-	URL: 'https://crossfox.dev',
+	URL: process.env.npm_lifecycle_event === 'dev' ? '/': 'https://crossfox.dev',
 	FOOTER_YEAR: 2024,
 	LANG: 'en',
 
