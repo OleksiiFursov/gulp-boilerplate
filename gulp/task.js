@@ -15,7 +15,7 @@ export const clearBuild = done => {
 }
 
 export const generateFonts = () =>
-  gulp.src(getSrcDir('fonts/**/*'), { encoding: false })
+  gulp.src(getSrcDir('fonts/**/*'), { encoding: false, dot: true })
       .pipe(changed(getBuildDir('fonts/')))
       .pipe(gulp.dest(getBuildDir('fonts/')))
 
