@@ -18,22 +18,20 @@ import webpHTML from 'gulp-webp-html'
 // SASS
 import * as dartSass from 'sass'
 import webpack from 'webpack-stream'
-import config from '../config.js'
 import webpackConfig from '../webpack.config.js'
 import {
 	clearBuild,
-	generateFavicon,
 	generateFiles,
-	generateFonts,
-	movePWA,
+	generateFonts
 } from './task.js'
+
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
 const sass = gulpSass(dartSass)
-
+import mediaQuery from 'gulp-group-css-media-queries';
 gulp.task('clean:build', clearBuild)
 gulp.task('fonts:build', generateFonts)
-gulp.task('pwa:build', movePWA)
+
 gulp.task('files:build', generateFiles)
 gulp.task('html:build', async () =>
   gulp.src(getHtmlSrc())
@@ -52,6 +50,7 @@ gulp.task('sass:build', () =>
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
       .pipe(sass())
+	  .pipe(mediaQuery())
       .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
       .pipe(gulp.dest(getBuildDir('css/'))),
@@ -74,5 +73,5 @@ gulp.task('js:build', () =>
       .pipe(gulp.dest(getBuildDir('js/'))),
 );
 
-gulp.task('generate-favicon', generateFavicon)
+
 
