@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-//import './gulp/dev.js';
+import './gulp/dev.js';
 import './gulp/build.js';
 
 

@@ -14,6 +14,11 @@ import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import webp from 'gulp-webp'
 import webpHTML from 'gulp-webp-html'
+
+import * as dartSass from 'sass'
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
+
 // SASS
 import webpack from 'webpack-stream'
 import webpackConfig from '../webpack.config.js'
@@ -25,7 +30,6 @@ import {
 
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
-import { sassAsync  } from "gulp5-sass-plugin";
 import mediaQuery from 'gulp-group-css-media-queries';
 
 
@@ -42,14 +46,13 @@ gulp.task('html:build', async () =>
       .pipe(webpHTML())
       .pipe(gulp.dest(getBuildDir())),
 )
-console.log(1, sassAsync())
 gulp.task('sass:build', () =>
   gulp.src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
-      .pipe(sassAsync())
+      .pipe(sass())
 	  .pipe(mediaQuery())
     //  .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
