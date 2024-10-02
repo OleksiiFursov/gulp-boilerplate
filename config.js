@@ -4,7 +4,6 @@ export default {
 	FOOTER_YEAR: 2024,
 	MODE:  process.env.npm_lifecycle_event,
 	LANG: 'en',
-
 	// COMPANY:
 	COMPANY_NAME: 'Crossfox.dev',
 	COMPANY_NAME_SHORT: 'Crossfox.dev',
@@ -14,7 +13,7 @@ export default {
 	OPENS: "09:00",
 	CLOSES: "17:00",
 	PRICE_RANGE: '$$',
-
+	GOOGLE_ANALYTIC: null,
 	// CONTACTS:
 	EMAIL: 'alex@crossfox.dev',
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',

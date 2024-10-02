@@ -4,6 +4,7 @@
     </p>
 </footer>
 <script src="/js/index.js"></script>
+
 <script type="application/ld+json">{
     "@context": "http://schema.org",
     "@type": "Organization",
@@ -27,5 +28,15 @@
     }],
     "priceRange": "@PRICE_RANGE"
 }</script>
+@@if(GOOGLE_ANALYTIC !== null){
+<script async src="https://www.googletagmanager.com/gtag/js?id=@@GOOGLE_ANALYTIC"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '@@GOOGLE_ANALYTIC');
+</script>
+}
 </body>
 </html>

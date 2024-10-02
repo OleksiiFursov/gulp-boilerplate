@@ -10,30 +10,32 @@ import gulpIf from 'gulp-if'
 // Images
 import imagemin from 'gulp-imagemin'
 import plumber from 'gulp-plumber'
-import gulpSass from 'gulp-sass'
 import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import webp from 'gulp-webp'
 import webpHTML from 'gulp-webp-html'
-// SASS
+
 import * as dartSass from 'sass'
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
+
+// SASS
 import webpack from 'webpack-stream'
-import config from '../config.js'
 import webpackConfig from '../webpack.config.js'
 import {
 	clearBuild,
-	generateFavicon,
 	generateFiles,
-	generateFonts,
-	movePWA,
+	generateFonts
 } from './task.js'
+
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
-const sass = gulpSass(dartSass)
+import mediaQuery from 'gulp-group-css-media-queries';
+
 
 gulp.task('clean:build', clearBuild)
 gulp.task('fonts:build', generateFonts)
-gulp.task('pwa:build', movePWA)
+
 gulp.task('files:build', generateFiles)
 gulp.task('html:build', async () =>
   gulp.src(getHtmlSrc())
@@ -44,7 +46,6 @@ gulp.task('html:build', async () =>
       .pipe(webpHTML())
       .pipe(gulp.dest(getBuildDir())),
 )
-
 gulp.task('sass:build', () =>
   gulp.src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
@@ -52,9 +53,10 @@ gulp.task('sass:build', () =>
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
       .pipe(sass())
-      .pipe(sourceMaps.write('.'))
+	  .pipe(mediaQuery())
+    //  .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
-      .pipe(gulp.dest(getBuildDir('css/'))),
+      .pipe(gulp.dest(getBuildDir('css/')))
 )
 
 gulp.task('images:build', () =>
@@ -74,5 +76,5 @@ gulp.task('js:build', () =>
       .pipe(gulp.dest(getBuildDir('js/'))),
 );
 
-gulp.task('generate-favicon', generateFavicon)
+
 

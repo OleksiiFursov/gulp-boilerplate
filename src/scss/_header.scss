@@ -29,8 +29,8 @@ $header-burger-radius: 6rem;
   $height: 0.3rem;
   $bg: $bg-color;
   padding: 0;
-  width: 4.5rem;
-  height: 3.2rem;
+  width: 4rem;
+  height: 2.7rem;
   border: 0;
   position: relative;
   z-index: 9;
@@ -113,7 +113,7 @@ body{
     color: $bg-color-dark;
     .header-burger {
       &::before {
-        transform: translateY(1.45rem) rotate(45deg);
+        transform: translateY(1rem) rotate(45deg);
       }
       span {
         transform: scaleX(0);

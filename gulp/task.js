@@ -37,11 +37,6 @@ export const generateFiles = async () => {
 	await Promise.all(tasks.map(task => task()));
 }
 
-export const movePWA = () =>
-  gulp.src(['*.png', '*.ico', '.*.webmanifest'].map(getSrcDir))
-      .pipe(changed(getBuildDir()))
-      .pipe(gulp.dest(getBuildDir()))
-
 
 export const generateFavicon = done =>  {
 	const logoPath = getSrcDir('img/cf-favicon.png');

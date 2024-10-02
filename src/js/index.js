@@ -1,5 +1,3 @@
-const GOOGLE_ANALYTICS = 'G-XXXXXXX';
-
 const d = document,
   body = d.body,
   bc = body.classList,
@@ -23,11 +21,6 @@ const d = document,
 	  el && el.addEventListener(type, call)
   }
 
-// GOOGLE ANALYTICS
-window.dataLayer = window.dataLayer || []
-function gtag () {dataLayer.push(arguments)}
-gtag('js', new Date())
-gtag('config', GOOGLE_ANALYTICS)
 
 
 $o('.page-top', e => {

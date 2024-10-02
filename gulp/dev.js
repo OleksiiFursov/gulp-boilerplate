@@ -18,7 +18,6 @@ import {
 	generateFavicon,
 	generateFiles,
 	generateFonts,
-	movePWA,
 } from './task.js'
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 
@@ -36,8 +35,6 @@ gulp.task('html:dev', async () =>
 
 gulp.task('fonts:dev', generateFonts)
 gulp.task('files:dev', generateFiles)
-gulp.task('pwa:dev', () => movePWA().pipe(server.stream()))
-
 gulp.task('sass:dev', () =>
   gulp.src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
