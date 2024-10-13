@@ -1,18 +1,14 @@
+import gulp from 'gulp'
 import browserSync from 'browser-sync'
 import fs from 'fs'
-import gulp from 'gulp'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
 import plumber from 'gulp-plumber'
-import sass from 'gulp-sass'
 import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
-import * as dartSass from 'sass'
-import webpack from 'webpack-stream'
 import config from '../config.js'
-import {webpackConfigDev} from '../webpack.config.js'
-
+import { sync } from '@lmcd/gulp-dartsass';
 import {
 	clearBuild,
 	generateFavicon,
@@ -20,11 +16,11 @@ import {
 	generateFonts,
 } from './task.js'
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
-
-const sassCompiler = sass(dartSass)
-const server = browserSync.create()
+import * as sass from 'sass';
 
 gulp.task('clean:dev', clearBuild)
+
+const server = browserSync.create()
 gulp.task('html:dev', async () =>
   gulp.src(getHtmlSrc())
       .pipe(plumber(plumberNotify('HTML')))
@@ -41,7 +37,7 @@ gulp.task('sass:dev', () =>
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
-      .pipe(sassCompiler())
+	  .pipe(sync(sass))
       .pipe(sourceMaps.write())
       .pipe(gulp.dest(getBuildDir('css/')))
       .pipe(server.stream()),
@@ -58,7 +54,6 @@ gulp.task('js:dev', () =>
   gulp.src(getSrcDir('/js/*.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
-      .pipe(webpack(webpackConfigDev))
       .pipe(gulp.dest(getBuildDir('js/')))
 
       .pipe(server.stream()),

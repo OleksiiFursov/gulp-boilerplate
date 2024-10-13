@@ -3,7 +3,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 
 const base = {
 	entry: {
-		index: [getSrcDir('js/index.js'),getSrcDir('js/dev.js')]
+		index: [getSrcDir('js/index.js')]
 	},
 	output: {
 		filename: '[name].js',

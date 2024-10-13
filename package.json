@@ -20,17 +20,18 @@
 		"gulp-notify": "^4.0.0",
 		"gulp-plumber": "^1.2.1",
 		"gulp-real-favicon": "^0.3.2",
-		"gulp-sass": "^5.1.0",
 		"gulp-sass-glob": "^1.1.0",
 		"gulp-sourcemaps": "^3.0.0",
 		"gulp-webp": "^5.0.0",
+		"@lmcd/gulp-dartsass": "^0.1.1",
 		"gulp-webp-css": "^1.1.0",
 		"gulp-webp-html": "^1.0.2",
 		"gulp-webp-html-fix": "^1.0.3",
 		"localtunnel": "^2.0.2",
 		"mkcert": "^3.2.0",
 		"rimraf": "^5.0.10",
-		"sass": "^1.79.4",
+		"sass": "^1.79.5",
+		"sass-embedded": "^1.79.5",
 		"style-loader": "^4.0.0",
 		"terser-webpack-plugin": "^5.3.10",
 		"webpack-stream": "^7.0.0"
@@ -55,7 +56,6 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.13",
-		"gulp5-sass-plugin": "^2.0.3"
+		"@crossfox/css-start": "^1.0.13"
 	}
 }

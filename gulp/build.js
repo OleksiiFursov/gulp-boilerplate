@@ -15,9 +15,8 @@ import sourceMaps from 'gulp-sourcemaps'
 import webp from 'gulp-webp'
 import webpHTML from 'gulp-webp-html'
 
-import * as dartSass from 'sass'
-import gulpSass from 'gulp-sass';
-const sass = gulpSass(dartSass);
+import * as sass from 'sass';
+import { sync } from '@lmcd/gulp-dartsass';
 
 // SASS
 import webpack from 'webpack-stream'
@@ -52,7 +51,7 @@ gulp.task('sass:build', () =>
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
-      .pipe(sass())
+	  .pipe(sync(sass))
 	  .pipe(mediaQuery())
     //  .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
