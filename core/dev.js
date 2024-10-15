@@ -17,6 +17,8 @@ import {
 } from './task.js'
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
 import * as sass from 'sass';
+import esBuild from 'gulp-esbuild';
+
 
 gulp.task('clean:dev', clearBuild)
 
@@ -55,7 +57,13 @@ gulp.task('js:dev', () =>
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
       .pipe(gulp.dest(getBuildDir('js/')))
-
+      .pipe(esBuild({
+	      outfile: 'index.js',
+	      bundle: true,
+	      minify: true,
+	      sourcemap: true,
+	      target: 'es2015'
+      }))
       .pipe(server.stream()),
 )
 

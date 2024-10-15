@@ -1,6 +1,6 @@
 import gulp from 'gulp';
-import './gulp/dev.js';
-import './gulp/build.js';
+import './core/dev.js';
+import './core/build.js';
 
 
 const tasks = ['html', 'sass', 'js', 'images', 'fonts', 'files' ];

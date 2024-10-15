@@ -4,6 +4,7 @@
 	"devDependencies": {
 		"@babel/core": "7.25.2",
 		"@babel/preset-env": "^7.24.8",
+		"@lmcd/gulp-dartsass": "^0.1.1",
 		"browser-sync": "^3.0.2",
 		"css-loader": "^7.1.2",
 		"gulp": "^5.0.0",
@@ -23,7 +24,6 @@
 		"gulp-sass-glob": "^1.1.0",
 		"gulp-sourcemaps": "^3.0.0",
 		"gulp-webp": "^5.0.0",
-		"@lmcd/gulp-dartsass": "^0.1.1",
 		"gulp-webp-css": "^1.1.0",
 		"gulp-webp-html": "^1.0.2",
 		"gulp-webp-html-fix": "^1.0.3",
@@ -38,13 +38,13 @@
 	},
 	"type": "module",
 	"scripts": {
-		"dev": "gulp",
-		"init": "gulp init",
+		"dev": "core",
+		"init": "core init",
 		"nvm-20": "nvm use 20",
-		"build": "gulp build",
-		"build-html-css-js": "gulp build-html-css-js",
+		"build": "core build",
+		"build-html-css-js": "core build-html-css-js",
 		"generate-certificates": "node generate-certificates.js",
-		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
+		"reinstal-gulp": "npm uninstall -g core npm install -g core",
 		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i"
 	},
 	"babel": {
@@ -56,6 +56,7 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.13"
+		"@crossfox/css-start": "^1.0.13",
+		"gulp-esbuild": "^0.12.1"
 	}
 }
