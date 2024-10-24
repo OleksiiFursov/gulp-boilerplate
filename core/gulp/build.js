@@ -12,22 +12,22 @@ import imagemin from 'gulp-imagemin'
 import plumber from 'gulp-plumber'
 import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
-import webp from 'gulp-webp'
+import webp from 'imagemin-webp'
 import webpHTML from 'gulp-webp-html'
+
 
 import * as sass from 'sass';
 import { sync } from '@lmcd/gulp-dartsass';
 
 // SASS
 import webpack from 'webpack-stream'
-import webpackConfig from '../webpack.config.js'
 import {
 	clearBuild,
 	generateFiles,
 	generateFonts
 } from './task.js'
 
-import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
+import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
 
 import mediaQuery from 'gulp-group-css-media-queries';
 
@@ -61,8 +61,9 @@ gulp.task('sass:build', () =>
 gulp.task('images:build', () =>
   gulp.src(getSrcDir('img/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('img/')))
-      .pipe(gulpIf(file =>  file.extname !== '.svg', webp()))
-      .pipe(imagemin({ verbose: true }))
+      .pipe(imagemin([
+	      webp({ quality: 50 })
+      ]))
       .pipe(gulp.dest(getBuildDir('img/')))
 )
 
@@ -71,7 +72,6 @@ gulp.task('js:build', () =>
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
       .pipe(babel())
-      .pipe(webpack(webpackConfig))
       .pipe(gulp.dest(getBuildDir('js/'))),
 );
 

@@ -7,15 +7,14 @@ import plumber from 'gulp-plumber'
 import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
-import config from '../config.js'
+import config from '../../config.js'
 import { sync } from '@lmcd/gulp-dartsass';
 import {
 	clearBuild,
-	generateFavicon,
 	generateFiles,
 	generateFonts,
 } from './task.js'
-import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from './tools.js'
+import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
 import * as sass from 'sass';
 import esBuild from 'gulp-esbuild';
 
@@ -66,8 +65,6 @@ gulp.task('js:dev', () =>
       }))
       .pipe(server.stream()),
 )
-
-gulp.task('generate-favicon', done => generateFavicon(done))
 
 gulp.task('serve:dev', async () => {
 	const options = {

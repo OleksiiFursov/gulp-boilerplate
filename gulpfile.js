@@ -1,17 +1,14 @@
-import gulp from 'gulp';
-import './core/dev.js';
-import './core/build.js';
+import {parallel, task, series} from 'gulp';
+
+import './core/gulp/dev.js';
+import './core/gulp/build.js';
+import './core/gulp/all.js';
+
+const tasksHTMLCSSJS = ['html', 'sass', 'js'];
+const tasks = [...tasksHTMLCSSJS, 'images', 'fonts', 'files' ];
 
 
-const tasks = ['html', 'sass', 'js', 'images', 'fonts', 'files' ];
-
-const devTasks = gulp.parallel(...tasks.map(v=> v+':dev'));
-const buildTasksHTMLCSSJS = gulp.parallel(...tasks.slice(0,3).map(v=> v+':build'));
-const buildTasks = gulp.parallel(...tasks.map(v=> v+':build'));
-
-
-gulp.task('init', gulp.series('generate-favicon'));
-gulp.task('default', gulp.series('clean:dev', devTasks, gulp.parallel( 'serve:dev')));
-gulp.task('with-pwa', gulp.series('clean:dev', devTasks,  'generate-favicon',  gulp.parallel( 'serve:dev')));
-gulp.task('build', gulp.series('clean:build', buildTasks));
-gulp.task('build-html-css-js', gulp.series('clean:build', buildTasksHTMLCSSJS));
+task('init', series('generate-favicon'))
+task('default', series('clean:dev', parallel(...tasks.map(v=> v+':dev')), parallel( 'serve:dev')));
+task('build', series('clean:build', parallel(...tasks.map(v=> v+':build'))));
+task('build-html-css-js', series('clean:build', parallel(tasksHTMLCSSJS.map(v=> v+':build'))));
