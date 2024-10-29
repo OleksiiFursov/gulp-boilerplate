@@ -1,4 +1,4 @@
-import gulp from 'gulp'
+import {task, src, watch, series, dest} from 'gulp'
 import browserSync from 'browser-sync'
 import fs from 'fs'
 import changed from 'gulp-changed'
@@ -19,54 +19,55 @@ import * as sass from 'sass';
 import esBuild from 'gulp-esbuild';
 
 
-gulp.task('clean:dev', clearBuild)
+task('clean:dev', clearBuild)
 
 const server = browserSync.create()
-gulp.task('html:dev', async () =>
-  gulp.src(getHtmlSrc())
+task('html:dev', async () =>
+  src(getHtmlSrc())
       .pipe(plumber(plumberNotify('HTML')))
       .pipe(fileInclude({ context: await getConfig() }))
-      .pipe(gulp.dest(getBuildDir()))
+      .pipe(dest(getBuildDir()))
       .pipe(server.stream())
 )
 
-gulp.task('fonts:dev', generateFonts)
-gulp.task('files:dev', generateFiles)
-gulp.task('sass:dev', () =>
-  gulp.src(getSrcDir('scss/*.scss'))
+task('fonts:dev', generateFonts)
+task('files:dev', generateFiles)
+task('sass:dev', () =>
+  src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
       .pipe(sassGlob())
 	  .pipe(sync(sass))
       .pipe(sourceMaps.write())
-      .pipe(gulp.dest(getBuildDir('css/')))
+      .pipe(dest(getBuildDir('css/')))
       .pipe(server.stream()),
 )
 
-gulp.task('images:dev', () =>
-  gulp.src(getSrcDir('img/**/*'), { encoding: false })
+task('images:dev', () =>
+  src(getSrcDir('img/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('img/')))
-      .pipe(gulp.dest(getBuildDir('img/')))
+      .pipe(dest(getBuildDir('img/')))
       .pipe(server.stream()),
 )
 
-gulp.task('js:dev', () =>
-  gulp.src(getSrcDir('/js/*.js'))
+task('js:dev', () =>
+  src(getSrcDir('/js/*.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
-      .pipe(gulp.dest(getBuildDir('js/')))
+      .pipe(dest(getBuildDir('js/')))
       .pipe(esBuild({
 	      outfile: 'index.js',
 	      bundle: true,
 	      minify: true,
 	      sourcemap: true,
-	      target: 'es2015'
+	      target: 'es2015',
+	      outdir: getBuildDir('js')
       }))
       .pipe(server.stream()),
 )
 
-gulp.task('serve:dev', async () => {
+task('serve:dev', async () => {
 	const options = {
 		server: {
 			baseDir: getBuildDir(),
@@ -88,11 +89,11 @@ gulp.task('serve:dev', async () => {
 
 	server.init(options)
 
-	gulp.watch(getSrcDir('scss/**/*.scss'), gulp.series('sass:dev'))
-	gulp.watch(getSrcDir('html/**/*.html'), gulp.series('html:dev')).on('change', server.reload)
-	gulp.watch(getSrcDir('img/**/*'), gulp.series('images:dev')).on('change', server.reload)
-	gulp.watch(getSrcDir('fonts/**/*'), gulp.series('fonts:dev')).on('change', server.reload)
-	gulp.watch(getSrcDir('**/*.js'), gulp.series('js:dev')).on('change', server.reload)
-	gulp.watch('./*.js', gulp.series('html:dev')).on('change', server.reload)
+	watch(getSrcDir('scss/**/*.scss'), series('sass:dev'))
+	watch(getSrcDir('html/**/*.html'), series('html:dev')).on('change', server.reload)
+	watch(getSrcDir('img/**/*'), series('images:dev')).on('change', server.reload)
+	watch(getSrcDir('fonts/**/*'), series('fonts:dev')).on('change', server.reload)
+	watch(getSrcDir('**/*.js'), series('js:dev')).on('change', server.reload)
+	watch('./*.js', series('html:dev')).on('change', server.reload)
 })
 
