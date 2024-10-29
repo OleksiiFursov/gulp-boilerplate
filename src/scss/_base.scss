@@ -1,5 +1,5 @@
 @use "../../node_modules/@crossfox/css-start/dist/base.min.css";
-@use "variables" as *;
+@use 'globals' as *;
 %pos-fix {
   position: fixed;
   top: 0;

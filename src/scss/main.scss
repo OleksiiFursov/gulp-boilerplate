@@ -1,5 +1,6 @@
-@import "base";
-@import "header";
+@use 'globals' as *;
+@use "base";
+@use "header";
 
 #start{
   background: $color-1;
