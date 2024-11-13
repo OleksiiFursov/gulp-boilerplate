@@ -52,18 +52,17 @@ task('images:dev', () =>
 )
 
 task('js:dev', () =>
-  src(getSrcDir('/js/*.js'))
+  src(getSrcDir('/js/index.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
-      .pipe(dest(getBuildDir('js/')))
       .pipe(esBuild({
 	      outfile: 'index.js',
 	      bundle: true,
-	      minify: true,
 	      sourcemap: true,
-	      target: 'es2015',
-	      outdir: getBuildDir('js')
+	      format: 'iife',
+	      target: 'es6'
       }))
+      .pipe(dest(getBuildDir('js/')))
       .pipe(server.stream()),
 )
 
