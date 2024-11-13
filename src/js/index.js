@@ -4,6 +4,7 @@ $o('.page-top', e => {
 	bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
 })
 
+
 $e(body, 'click', e => {
 	const el = e.target
 	const elC = el.classList

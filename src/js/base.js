@@ -2,6 +2,7 @@ let d = document,
 	body = d.body,
 	bc = body.classList,
 	isMob,
+	theLoaded,
     eventList = {};
 
 // utils:
@@ -17,7 +18,7 @@ export const init = () => {
 		bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
 	})
 	$e(window, 'load', ()=>{
-
+		theLoaded();
 	})
 
 }
@@ -53,4 +54,9 @@ export const $v = (sel, call, once = false) => {
 
 		})
 	})
+}
+
+
+export function urlencode(str) {
+	return encodeURIComponent(str).replace(/%20/g, '+');
 }
