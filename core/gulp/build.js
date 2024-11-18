@@ -13,11 +13,12 @@ import sourceMaps from 'gulp-sourcemaps'
 import webp from 'imagemin-webp'
 import webpHTML from 'gulp-webp-html'
 
-
+// SASS
 import * as sass from 'sass';
 import { sync } from '@lmcd/gulp-dartsass';
+import mediaQuery from 'gulp-group-css-media-queries';
 
-// SASS
+
 import {
 	clearBuild,
 	generateFiles,
@@ -26,7 +27,7 @@ import {
 
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
 
-import mediaQuery from 'gulp-group-css-media-queries';
+
 
 
 gulp.task('clean:build', clearBuild)
@@ -47,10 +48,9 @@ gulp.task('sass:build', () =>
       .pipe(changed(getBuildDir('css/')))
       .pipe(plumber(plumberNotify('SCSS')))
       .pipe(sourceMaps.init())
-      .pipe(sassGlob())
 	  .pipe(sync(sass))
 	  .pipe(mediaQuery())
-    //  .pipe(sourceMaps.write('.'))
+      .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
       .pipe(gulp.dest(getBuildDir('css/')))
 )

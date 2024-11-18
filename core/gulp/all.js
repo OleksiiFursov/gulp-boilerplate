@@ -6,8 +6,8 @@ import config from '../../config.js'
 import { getBuildDir, getSrcDir } from '../tools.js'
 
 task('generate-favicon', async (done) => {
+	console.log(done);
 	const logoPath = getSrcDir('img/cf-favicon.png');
-
 	const configuration = {
 		path: getSrcDir('pwa'),                // Путь для ссылок в HTML (относительный к корню)
 		appName: "My App",                     // Название приложения
@@ -31,6 +31,8 @@ task('generate-favicon', async (done) => {
 
 	if (fs.existsSync(logoPath)) {
 		try {
+			fs.mkdirSync(getSrcDir('pwa'));
+
 			const {
 				images,
 				files,

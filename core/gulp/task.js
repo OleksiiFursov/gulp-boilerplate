@@ -1,5 +1,5 @@
 import fs from 'fs'
-import gulp from 'gulp'
+import gulp, {task } from 'gulp'
 import changed from 'gulp-changed'
 import clean from 'gulp-clean'
 import config from '../../config.js'
@@ -21,7 +21,14 @@ export const generateFonts = () =>
 export const generateFiles = async () => {
     const tasks = [];
 
-    for (const folder of config.FOLDER_COPY) {
+    if(config.PWA && !fs.existsSync(getSrcDir('pwa'))) {
+        tasks.push(done => {
+            task('generate-favicon')(done);
+        });
+    }
+    const folders = config.PWA ? [...config.FOLDER_COPY, 'pwa']: config.FOLDER_COPY
+
+    for (const folder of folders) {
         tasks.push(async () => {
             return new Promise((resolve, reject) => {
                 gulp.src(getSrcDir(folder + '/**/*'), {encoding: false})

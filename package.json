@@ -27,7 +27,8 @@
 		"mkcert": "^3.2.0",
 		"sass": "^1.81.0",
 		"sharp": "^0.33.5",
-		"style-loader": "^4.0.0"
+		"style-loader": "^4.0.0",
+		"rimraf": "^6.0.1"
 	},
 	"type": "module",
 	"scripts": {
@@ -44,7 +45,7 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.14",
-		"rimraf": "^6.0.1"
+		"@crossfox/css-start": "^1.0.14"
+
 	}
 }

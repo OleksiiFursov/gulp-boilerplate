@@ -14,6 +14,7 @@ export default {
 	OPENS: "09:00",
 	CLOSES: "17:00",
 	PRICE_RANGE: '$$',
+	PWA: true,
 
 	//API:
 	GOOGLE_ANALYTIC: null,
