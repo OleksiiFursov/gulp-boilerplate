@@ -9,17 +9,11 @@ import path from 'path'
 import config from '../../config.js'
 import { sync } from '@lmcd/gulp-dartsass'
 import * as sass from 'sass'
-import {
-	clearBuild,
-	generateFiles,
-	generateFonts,
-} from './task.js'
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
 import esBuild from 'gulp-esbuild'
 
 const server = browserSync.create()
 
-task('clean:dev', clearBuild)
 task('html:dev', async () =>
   src(getHtmlSrc())
   .pipe(plumber(plumberNotify('HTML')))
@@ -28,8 +22,6 @@ task('html:dev', async () =>
   .pipe(server.stream()),
 )
 
-task('fonts:dev', generateFonts)
-task('files:dev', generateFiles)
 task('sass:dev', () =>
   src(getSrcDir('scss/*.scss'))
   .pipe(plumber(plumberNotify('SCSS')))

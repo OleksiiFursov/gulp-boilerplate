@@ -2,6 +2,7 @@
 package-lock.json
 /build/
 /.idea
-
+/src/html/part/pwa.html
+/pwa
 /ssl/key.key
 /ssl/cert.crt

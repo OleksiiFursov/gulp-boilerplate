@@ -14,7 +14,8 @@ export default {
 	OPENS: "09:00",
 	CLOSES: "17:00",
 	PRICE_RANGE: '$$',
-	PWA: true,
+	VERSION: '1.0',
+
 
 	//API:
 	GOOGLE_ANALYTIC: null,
@@ -23,11 +24,16 @@ export default {
 	EMAIL: 'alex@crossfox.dev',
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 	AUTHOR: 'Oleksii Fursov',
-	THEME_COLOR: '#ff9800',
+
 
 	//DESIGNED:
 	THEME_BACKGROUND: '#111',
+	THEME_COLOR: '#ff9800',
 
+	PWA: true,
+	PWA_DISPLAY: 'standalone', //https://developer.mozilla.org/en-US/docs/Web/Manifest/display
+	PWA_START_URL: '/index.html',
+	PWA_ORIENTATION: 'portrait', //https://developer.mozilla.org/en-US/docs/Web/Manifest/orientation
 	// SERVER:
 	FOLDER_BUILD: './build',
 	FOLDER_SOURCE: './src',
@@ -45,3 +51,4 @@ export default {
 	],
 	MODE
 }
+

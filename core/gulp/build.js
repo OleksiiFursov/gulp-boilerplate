@@ -18,22 +18,9 @@ import * as sass from 'sass';
 import { sync } from '@lmcd/gulp-dartsass';
 import mediaQuery from 'gulp-group-css-media-queries';
 
-
-import {
-	clearBuild,
-	generateFiles,
-	generateFonts
-} from './task.js'
-
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
 
 
-
-
-gulp.task('clean:build', clearBuild)
-gulp.task('fonts:build', generateFonts)
-
-gulp.task('files:build', generateFiles)
 gulp.task('html:build', async () =>
   gulp.src(getHtmlSrc())
       .pipe(changed(getBuildDir()))

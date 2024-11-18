@@ -10,14 +10,8 @@
     <meta name="theme-color" content="@@THEME_COLOR">
     <meta name="viewport-fit" content="cover">
     <meta name="author" content="@@AUTHOR">
-    <meta name="generator" content="Crossfox-gulp-boirplate">
-    <meta name="msapplication-TileColor" content="@@THEME_COLOR">
-    <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon-16x16.png">
-    <link rel="manifest" href="/pwa/site.webmanifest">
-    <link rel="mask-icon" href="/pwa/safari-pinned-tab.svg" color="@@THEME_COLOR">
-    <meta name="theme-color" content="@@THEME_COLOR">
+    <meta name="generator" content="Crossfox-gulp-boirplate-v2">
+    @@if(MODE === 'dev'){<link rel="icon" type="image/x-icon" href="/src/pwa/favicon.ico">} @@if(PWA && MODE !== 'dev'){ @@include('pwa.html')}
 </head>
 <body>
 <div class="page-top"></div>
