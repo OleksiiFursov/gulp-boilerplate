@@ -1,69 +1,64 @@
-import {task, src, watch, series, dest} from 'gulp'
+import { task, src, watch, dest } from 'gulp'
 import browserSync from 'browser-sync'
 import fs from 'fs'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
 import plumber from 'gulp-plumber'
-import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
 import config from '../../config.js'
-import { sync } from '@lmcd/gulp-dartsass';
+import { sync } from '@lmcd/gulp-dartsass'
+import * as sass from 'sass'
 import {
 	clearBuild,
 	generateFiles,
 	generateFonts,
 } from './task.js'
 import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
-import * as sass from 'sass';
-import esBuild from 'gulp-esbuild';
-
-
-task('clean:dev', clearBuild)
+import esBuild from 'gulp-esbuild'
 
 const server = browserSync.create()
+
+task('clean:dev', clearBuild)
 task('html:dev', async () =>
   src(getHtmlSrc())
-      .pipe(plumber(plumberNotify('HTML')))
-      .pipe(fileInclude({ context: await getConfig() }))
-      .pipe(dest(getBuildDir()))
-      .pipe(server.stream())
+  .pipe(plumber(plumberNotify('HTML')))
+  .pipe(fileInclude({ context: await getConfig() }))
+  .pipe(dest(getBuildDir()))
+  .pipe(server.stream()),
 )
 
 task('fonts:dev', generateFonts)
 task('files:dev', generateFiles)
 task('sass:dev', () =>
   src(getSrcDir('scss/*.scss'))
-      .pipe(changed(getBuildDir('css/')))
-      .pipe(plumber(plumberNotify('SCSS')))
-      .pipe(sourceMaps.init())
-      .pipe(sassGlob())
-	  .pipe(sync(sass))
-      .pipe(sourceMaps.write())
-      .pipe(dest(getBuildDir('css/')))
-      .pipe(server.stream()),
+  .pipe(plumber(plumberNotify('SCSS')))
+  .pipe(sourceMaps.init())
+  .pipe(sync(sass))
+  .pipe(sourceMaps.write('.'))
+  .pipe(dest(getBuildDir('css/')))
+  .pipe(server.stream()),
 )
 
 task('images:dev', () =>
   src(getSrcDir('img/**/*'), { encoding: false })
-      .pipe(changed(getBuildDir('img/')))
-      .pipe(dest(getBuildDir('img/')))
-      .pipe(server.stream()),
+  .pipe(changed(getBuildDir('img/')))
+  .pipe(dest(getBuildDir('img/')))
+  .pipe(server.stream()),
 )
 
 task('js:dev', () =>
   src(getSrcDir('/js/index.js'))
-      .pipe(changed(getBuildDir('js/')))
-      .pipe(plumber(plumberNotify('JS')))
-      .pipe(esBuild({
-	      outfile: 'index.js',
-	      bundle: true,
-	      sourcemap: true,
-	      format: 'iife',
-	      target: 'es6'
-      }))
-      .pipe(dest(getBuildDir('js/')))
-      .pipe(server.stream()),
+  .pipe(plumber(plumberNotify('JS')))
+  .pipe(esBuild({
+	  outfile: 'index.js',
+	  bundle: true,
+	  sourcemap: true,
+	  format: 'iife',
+	  target: 'es6',
+  }))
+  .pipe(dest(getBuildDir('js/')))
+  .pipe(server.stream()),
 )
 
 task('serve:dev', async () => {
@@ -88,11 +83,11 @@ task('serve:dev', async () => {
 
 	server.init(options)
 
-	watch(getSrcDir('scss/**/*.scss'), series('sass:dev'))
-	watch(getSrcDir('html/**/*.html'), series('html:dev')).on('change', server.reload)
-	watch(getSrcDir('img/**/*'), series('images:dev')).on('change', server.reload)
-	watch(getSrcDir('fonts/**/*'), series('fonts:dev')).on('change', server.reload)
-	watch(getSrcDir('**/*.js'), series('js:dev')).on('change', server.reload)
-	watch('./*.js', series('html:dev')).on('change', server.reload)
+	watch(getSrcDir('scss/**/*.scss'), task('sass:dev'))
+	watch(getSrcDir('html/**/*.html'), task('html:dev')).on('change', server.reload)
+	watch(getSrcDir('img/**/*'), task('images:dev')).on('change', server.reload)
+	watch(getSrcDir('fonts/**/*'), task('fonts:dev')).on('change', server.reload)
+	watch(getSrcDir('/js/**/*.js'), task('js:dev'))
+	watch('./*.js', task('html:dev')).on('change', server.reload)
 })
 

@@ -6,6 +6,7 @@ window.isMob = null
 let theLoaded,
   eventList = {}
 
+console.log(11433);
 // utils:
 export const rand = (min = 0, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min
 export const rwd = (d, m) => isMob ? m : d
@@ -48,20 +49,23 @@ export const onScroll = (parent, callback) => {
 	})
 }
 
-const getProgress = p => (scrollY - p.start) / p.range
+const getProgress = p => (scrollY - p.start) / p.range;
+
 export const init = ({ delayLoading = 100, loadedAnimAfter=".header"}={}) => {
+
 	$o('.page-top', e => {
 		bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
 	})
 
 	$e(window, 'load', () => {
 		bc.add('loaded')
-
 		setTimeout(() => {
+
 			const eventsAvailable = ['scroll', 'resize', 'move', 'click'];
 			for(const event of eventsAvailable) {
 				const keyOn = 'on'+ufirst(event);
 				//let p = getProgress(point)
+				//console.log(3, eventList[keyOn])
 				if(eventList[keyOn]){
 					window.addEventListener(event, e=>{
 						for(const eventCall of eventList[keyOn]){

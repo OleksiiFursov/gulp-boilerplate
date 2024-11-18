@@ -1,5 +1,4 @@
 import gulp from 'gulp'
-import babel from 'gulp-babel'
 import changed from 'gulp-changed'
 import cssnano from 'gulp-cssnano'
 // HTML
@@ -10,7 +9,6 @@ import gulpIf from 'gulp-if'
 // Images
 import imagemin from 'gulp-imagemin'
 import plumber from 'gulp-plumber'
-import sassGlob from 'gulp-sass-glob'
 import sourceMaps from 'gulp-sourcemaps'
 import webp from 'imagemin-webp'
 import webpHTML from 'gulp-webp-html'
@@ -20,7 +18,6 @@ import * as sass from 'sass';
 import { sync } from '@lmcd/gulp-dartsass';
 
 // SASS
-import webpack from 'webpack-stream'
 import {
 	clearBuild,
 	generateFiles,
@@ -71,7 +68,6 @@ gulp.task('js:build', () =>
   gulp.src(getSrcDir('js/*.js'))
       .pipe(changed(getBuildDir('js/')))
       .pipe(plumber(plumberNotify('JS')))
-      .pipe(babel())
       .pipe(gulp.dest(getBuildDir('js/'))),
 );
 

@@ -1,15 +1,9 @@
 import { init, $o, $e, onScroll } from './base.js'
 init();
 
-
-$o('.page-top', e => {
-	bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
-})
-
 onScroll('.ba', (p, e)=>{
 	console.log(1, p, e);
 })
-
 
 $e(body, 'click', e => {
 	const el = e.target

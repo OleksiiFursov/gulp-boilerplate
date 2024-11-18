@@ -3,13 +3,18 @@
 @use "header";
 
 #start{
+  @extend %pos-full;
   background: $color-1;
-  height:100dvh;
+  height:400dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   color: $color-2;
   font-size: $font-xxl;
+}
+.ba{
+  background-color: #f17938;
+  height: 60vh;
 }
 .footer{
   background: $brand-color;
