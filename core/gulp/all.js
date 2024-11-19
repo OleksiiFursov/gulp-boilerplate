@@ -57,6 +57,8 @@ task('generate-favicon', async (done) => {
 		orientation: config.PWA_ORIENTATION,
 		start_url: config.PWA_START_URL,
 		logging: true,
+		appleStatusBarStyle: config.PWA_APPLE_STATUS_BAR,
+		version: config.VERSION,
 		icons: {
 			android: true,
 			appleIcon: true,

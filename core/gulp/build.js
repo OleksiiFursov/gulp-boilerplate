@@ -1,4 +1,4 @@
-import gulp from 'gulp'
+import {task, src, dest} from 'gulp'
 import changed from 'gulp-changed'
 import cssnano from 'gulp-cssnano'
 // HTML
@@ -8,7 +8,6 @@ import gulpIf from 'gulp-if'
 
 // Images
 import imagemin from 'gulp-imagemin'
-import plumber from 'gulp-plumber'
 import sourceMaps from 'gulp-sourcemaps'
 import webp from 'imagemin-webp'
 import webpHTML from 'gulp-webp-html'
@@ -18,44 +17,52 @@ import * as sass from 'sass';
 import { sync } from '@lmcd/gulp-dartsass';
 import mediaQuery from 'gulp-group-css-media-queries';
 
-import { getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify } from '../tools.js'
+import {
+      clearHTML,
+      getBuildDir,
+      getConfig,
+      getHtmlSrc,
+      getSrcDir,
+      plumberNotify,
+} from '../tools.js'
 
 
-gulp.task('html:build', async () =>
-  gulp.src(getHtmlSrc())
+task('html:build', async () =>
+  src(getHtmlSrc())
       .pipe(changed(getBuildDir()))
-      .pipe(plumber(plumberNotify('HTML')))
+      .pipe(plumberNotify('HTML'))
       .pipe(fileInclude({ context: await getConfig() }))
       .pipe(htmlClean())
       .pipe(webpHTML())
-      .pipe(gulp.dest(getBuildDir())),
+      .on('data', clearHTML)
+      .pipe(dest(getBuildDir())),
 )
-gulp.task('sass:build', () =>
-  gulp.src(getSrcDir('scss/*.scss'))
+task('sass:build', () =>
+  src(getSrcDir('scss/*.scss'))
       .pipe(changed(getBuildDir('css/')))
-      .pipe(plumber(plumberNotify('SCSS')))
+      .pipe(plumberNotify('SCSS'))
       .pipe(sourceMaps.init())
 	  .pipe(sync(sass))
 	  .pipe(mediaQuery())
       .pipe(sourceMaps.write('.'))
       .pipe(gulpIf('*.css', cssnano()))
-      .pipe(gulp.dest(getBuildDir('css/')))
+      .pipe(dest(getBuildDir('css/')))
 )
 
-gulp.task('images:build', () =>
-  gulp.src(getSrcDir('img/**/*'), { encoding: false })
+task('images:build', () =>
+  src(getSrcDir('img/**/*'), { encoding: false })
       .pipe(changed(getBuildDir('img/')))
       .pipe(imagemin([
 	      webp({ quality: 50 })
       ]))
-      .pipe(gulp.dest(getBuildDir('img/')))
+      .pipe(dest(getBuildDir('img/')))
 )
 
-gulp.task('js:build', () =>
-  gulp.src(getSrcDir('js/*.js'))
+task('js:build', () =>
+  src(getSrcDir('js/*.js'))
       .pipe(changed(getBuildDir('js/')))
-      .pipe(plumber(plumberNotify('JS')))
-      .pipe(gulp.dest(getBuildDir('js/'))),
+      .pipe(plumberNotify('JS'))
+      .pipe(dest(getBuildDir('js/'))),
 );
 
 

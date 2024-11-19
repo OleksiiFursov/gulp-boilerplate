@@ -25,10 +25,10 @@
 		"imagemin-webp": "^8.0.0",
 		"localtunnel": "^2.0.2",
 		"mkcert": "^3.2.0",
+		"rimraf": "^6.0.1",
 		"sass": "^1.81.0",
 		"sharp": "^0.33.5",
-		"style-loader": "^4.0.0",
-		"rimraf": "^6.0.1"
+		"style-loader": "^4.0.0"
 	},
 	"type": "module",
 	"scripts": {
@@ -37,7 +37,8 @@
 		"nvm-20": "nvm use 20",
 		"build": "gulp build",
 		"build-html-css-js": "gulp build-html-css-js",
-		"generate-certificates": "node generate-certificates.js",
+		"generate-certificates": "node service/generate-certificates.js",
+		"resize-image": "node service/generate-certificates.js",
 		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
 		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i"
 	},
@@ -45,7 +46,7 @@
 		"last 5 versions"
 	],
 	"dependencies": {
-		"@crossfox/css-start": "^1.0.14"
-
+		"@crossfox/css-start": "^1.0.14",
+		"express": "^4.21.1"
 	}
 }

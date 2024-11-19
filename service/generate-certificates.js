@@ -3,7 +3,7 @@ import { createCA, createCert } from 'mkcert'
 import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import config from './config.js'
+import config from '../../config.js'
 
 // Определение пути к директории сертификатов
 const __filename = fileURLToPath(import.meta.url);

@@ -1,14 +1,16 @@
 import express from 'express'
 import sharp from 'sharp'
 import fs from 'fs'
-import path from 'path'
+import path, {dirname} from 'path'
 
+const __dirname = dirname('../../..');
 const app = express();
 
 app.get('/image/:size/:image', (req, res) => {
 	const {size, image} = req.params;
-	const imagePath = path.resolve(__dirname, 'images', image);
+	const imagePath = path.resolve(__dirname, 'src/img', image);
 
+	console.log(1, imagePath)
 	fs.access(imagePath, fs.constants.F_OK | fs.constants.R_OK, err => {
 		if(err) {
 			return res.status(404).json({message: "Image not found"});

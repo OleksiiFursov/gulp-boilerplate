@@ -3,7 +3,6 @@ import browserSync from 'browser-sync'
 import fs from 'fs'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
-import plumber from 'gulp-plumber'
 import sourceMaps from 'gulp-sourcemaps'
 import path from 'path'
 import config from '../../config.js'
@@ -16,7 +15,7 @@ const server = browserSync.create()
 
 task('html:dev', async () =>
   src(getHtmlSrc())
-  .pipe(plumber(plumberNotify('HTML')))
+  .pipe(plumberNotify('HTML'))
   .pipe(fileInclude({ context: await getConfig() }))
   .pipe(dest(getBuildDir()))
   .pipe(server.stream()),
@@ -24,7 +23,7 @@ task('html:dev', async () =>
 
 task('sass:dev', () =>
   src(getSrcDir('scss/*.scss'))
-  .pipe(plumber(plumberNotify('SCSS')))
+  .pipe(plumberNotify('SCSS'))
   .pipe(sourceMaps.init())
   .pipe(sync(sass))
   .pipe(sourceMaps.write('.'))
@@ -41,7 +40,7 @@ task('images:dev', () =>
 
 task('js:dev', () =>
   src(getSrcDir('/js/index.js'))
-  .pipe(plumber(plumberNotify('JS')))
+  .pipe(plumberNotify('JS'))
   .pipe(esBuild({
 	  outfile: 'index.js',
 	  bundle: true,

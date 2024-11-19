@@ -26,7 +26,7 @@
         "opens": "@@OPENS",
         "closes": "@@CLOSES"
     }],
-    "priceRange": "@PRICE_RANGE"
+    "priceRange": "@@PRICE_RANGE"
 }</script>
 @@if(GOOGLE_ANALYTIC !== null){
 <script async src="https://www.googletagmanager.com/gtag/js?id=@@GOOGLE_ANALYTIC"></script>
@@ -37,6 +37,5 @@
     gtag('config', '@@GOOGLE_ANALYTIC');
 </script>
 }
-
 </body>
 </html>
