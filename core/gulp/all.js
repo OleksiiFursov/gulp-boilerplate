@@ -56,7 +56,6 @@ task('generate-favicon', async (done) => {
 		display: config.PWA_DISPLAY,
 		orientation: config.PWA_ORIENTATION,
 		start_url: config.PWA_START_URL,
-		logging: true,
 		appleStatusBarStyle: config.PWA_APPLE_STATUS_BAR,
 		version: config.VERSION,
 		icons: {
@@ -65,6 +64,7 @@ task('generate-favicon', async (done) => {
 			favicons: true,
 			windows: true,
 		},
+
 	}
 
 	if (fs.existsSync(logoPath)) {
