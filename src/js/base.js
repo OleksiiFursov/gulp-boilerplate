@@ -6,7 +6,7 @@ window.isMob = null
 let theLoaded,
   eventList = {}
 
-console.log(11433);
+console.log(6);
 // utils:
 export const rand = (min = 0, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min
 export const rwd = (d, m) => isMob ? m : d
@@ -14,6 +14,7 @@ export const ufirst = str => str[0].toUpperCase() + str.slice(1);
 export const delay = ms => new Promise(r => setTimeout(r, ms))
 
 // Animate:
+
 export const animAfter = (el, call) => $e(el, 'transitionend', call)
 export const vAnim = (sel, call) => $each(sel, el => $v(el, call, true))
 export const vAnimRun = (root, sel, call) => {

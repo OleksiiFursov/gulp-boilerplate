@@ -62,10 +62,30 @@ task('serve:dev', async () => {
 		https: config.HTTPS,
 		tunnel: config.TUNNEL,
 		notify: false,
+		logPrefix: "СrossFoxGulp",
+		ghostMode: config.GHOSTMODE,
+		rewriteRules: [
+			{
+				match: /test/g,
+				fn: function (req, res, match) {
+
+					return 'kittenz';
+				}
+			}
+		],
+		// callbacks: {
+		// 	ready: function(err, bs) {
+		//
+		// 		bs.addMiddleware("*", function (req, res) {
+		// 			console.log(4445);
+		// 			res.end()
+		// 		});
+		// 	}
+		// }
 
 	}
 	const CERT_DIR = path.join(process.cwd(), 'ssl')
-	if (fs.existsSync(CERT_DIR) && fs.existsSync(path.join(CERT_DIR, 'key.key')) && fs.existsSync(path.join(CERT_DIR, 'cert.crt'))) {
+	if (config.HTTPS && fs.existsSync(CERT_DIR) && fs.existsSync(path.join(CERT_DIR, 'key.key')) && fs.existsSync(path.join(CERT_DIR, 'cert.crt'))) {
 		options.https = {
 			key: path.join(CERT_DIR, 'key.key'),
 			cert: path.join(CERT_DIR, 'cert.crt'),
@@ -79,6 +99,6 @@ task('serve:dev', async () => {
 	watch(getSrcDir('img/**/*'), task('images:dev')).on('change', server.reload)
 	watch(getSrcDir('fonts/**/*'), task('fonts:dev')).on('change', server.reload)
 	watch(getSrcDir('/js/**/*.js'), task('js:dev'))
-	watch('./*.js', task('html:dev')).on('change', server.reload)
+	watch('./*.js', task('js:dev')).on('change', server.reload)
 })
 

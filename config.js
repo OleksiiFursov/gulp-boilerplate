@@ -42,6 +42,12 @@ export default {
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
 	PORT: 777,
+	GHOSTMODE:{
+		clicks: true,
+		forms: true,
+		scroll: false,
+		location : true
+	},
 	TUNNEL: false,
 	RENDER_HTML: [
 		'html/**/*.html',
