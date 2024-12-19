@@ -1,9 +1,10 @@
-import { init, $o, $e, onScroll } from './base.js'
+import { init, $o, $e, onScroll, onResize} from './base.js'
 init();
 
 onScroll('.ba', (p, e)=>{
 	console.log(1, p, e);
 })
+onResize()
 
 $e(body, 'click', e => {
 	const el = e.target

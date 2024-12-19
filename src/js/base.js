@@ -6,7 +6,6 @@ window.isMob = null
 let theLoaded,
   eventList = {}
 
-console.log(6);
 // utils:
 export const rand = (min = 0, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min
 export const rwd = (d, m) => isMob ? m : d
@@ -26,7 +25,7 @@ export const vAnimRun = (root, sel, call) => {
 export const randAnim = (el, className = 'run', min = 200, max = 1000) => setTimeout(() => el.classList.add(className), rand(min, max));
 
 
-const scrollPointer = new WeakMap();
+const scrollPointer = new Map();
 
 export const onScroll = (parent, callback) => {
 	const h = innerHeight * .8;
@@ -74,6 +73,7 @@ export const init = ({ delayLoading = 100, loadedAnimAfter=".header"}={}) => {
 						}
 					})
 				}
+				console.log(eventList[keyOn]);
 			}
 
 

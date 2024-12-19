@@ -3,9 +3,8 @@ import { createCA, createCert } from 'mkcert'
 import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import config from '../../config.js'
+import config from '../config.js'
 
-// Определение пути к директории сертификатов
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -13,7 +12,6 @@ const CERT_DIR = path.join(__dirname, 'ssl');
 const CERT_KEY = path.join(CERT_DIR, 'key.key');
 const CERT_CERT = path.join(CERT_DIR, 'cert.crt');
 
-// Получение внешнего IP
 const interfaces = os.networkInterfaces();
 let externalIp = '';
 
@@ -26,7 +24,6 @@ for (let iface in interfaces) {
 	}
 }
 
-// Создание директории для сертификатов, если она не существует
 if (!fs.existsSync(CERT_DIR)) {
 	fs.mkdirSync(CERT_DIR, { recursive: true });
 }
