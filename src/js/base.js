@@ -9,8 +9,17 @@ let theLoaded,
 // utils:
 export const rand = (min = 0, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min
 export const rwd = (d, m) => isMob ? m : d
-export const ufirst = str => str[0].toUpperCase() + str.slice(1);
+export const ufirst = str => str[0].toUpperCase() + str.slice(1)
 export const delay = ms => new Promise(r => setTimeout(r, ms))
+
+export const isEmpty = (value) => {
+	if (value == null) return true
+	if (typeof value === 'string') return value.trim() === ''
+	if (Array.isArray(value)) return !value.length
+	if (value instanceof Set || value instanceof Map) return !value.size
+	if (typeof value === 'object') return !Object.keys(value).length
+	return false
+}
 
 // Animate:
 
@@ -22,15 +31,53 @@ export const vAnimRun = (root, sel, call) => {
 	el.classList.add('run')
 	call && animAfter(el, call)
 }
-export const randAnim = (el, className = 'run', min = 200, max = 1000) => setTimeout(() => el.classList.add(className), rand(min, max));
+export const randAnim = (el, className = 'run', min = 200, max = 1000) => setTimeout(() => el.classList.add(className), rand(min, max))
 
+const clickHash = []
 
-const scrollPointer = new Map();
+// Click:
+let onClickParams = null
+
+function onClickHandler (e) {
+	const el = e.target
+	const actionEl = el.closest('[data-action]')
+	if (actionEl) {
+		const actions = actionEl.dataset.action.split(' ')
+		for (const action of actions) {
+			for (const eventCall of onClickParams[action] || []) {
+				eventCall(e)
+			}
+		}
+	}
+}
+
+export const onClick = (action, call) => {
+	if (!onClickParams) {
+		window.addEventListener('click', onClickHandler)
+		onClickParams = {}
+	}
+	if (!onClickParams[action]) {
+		onClickParams[action] = []
+	}
+	onClickParams[action].push(call)
+}
+
+export const onClickMulti = actions => {
+	for (const key in actions) {
+		onClick(key, actions[key])
+	}
+}
+
+export const onClickHash = (reg, call) => {
+
+}
+
+const scrollPointer = new Map()
 
 export const onScroll = (parent, callback) => {
-	const h = innerHeight * .8;
-	if(!eventList.onScroll)
-		eventList.onScroll = [];
+	const h = innerHeight * .8
+	if (!eventList.onScroll)
+		eventList.onScroll = []
 
 	$each(parent, el => {
 		const rect = el.getBoundingClientRect()
@@ -43,15 +90,21 @@ export const onScroll = (parent, callback) => {
 			end,
 			range,
 			el,
-			callback
+			callback,
 		})
 
 	})
 }
 
-const getProgress = p => (scrollY - p.start) / p.range;
+function onScrollHandler (e) {
+	scrollPointer.forEach(el => {
+		console.log(el, getProgress(el))
+	})
+}
 
-export const init = ({ delayLoading = 100, loadedAnimAfter=".header"}={}) => {
+const getProgress = p => (scrollY - p.start) / p.range
+
+export const init = ({ delayLoading = 100, loadedAnimAfter = '.header' } = {}) => {
 
 	$o('.page-top', e => {
 		bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
@@ -61,26 +114,23 @@ export const init = ({ delayLoading = 100, loadedAnimAfter=".header"}={}) => {
 		bc.add('loaded')
 		setTimeout(() => {
 
-			const eventsAvailable = ['scroll', 'resize', 'move', 'click'];
-			for(const event of eventsAvailable) {
-				const keyOn = 'on'+ufirst(event);
-				//let p = getProgress(point)
-				//console.log(3, eventList[keyOn])
-				if(eventList[keyOn]){
-					window.addEventListener(event, e=>{
-						for(const eventCall of eventList[keyOn]){
-							eventCall(e);
-						}
-					})
-				}
-				console.log(eventList[keyOn]);
+			if (eventList.onScroll) {
+				window.addEventListener('scroll', onScrollHandler)
 			}
 
+			// const eventsAvailable = ['scroll', 'resize', 'move', 'click'];
+			// for(const event of eventsAvailable) {
+			// 	const keyOn = 'on'+ufirst(event);
+			// 	//let p = getProgress(point)
+			// 	//console.log(3, eventList[keyOn])
+			//
+			// 	console.log(eventList[keyOn]);
+			// }
 
-			if(loadedAnimAfter){
+			if (loadedAnimAfter) {
 				animAfter(loadedAnimAfter, theLoaded)
-			}else{
-				theLoaded();
+			} else {
+				theLoaded()
 			}
 
 		}, delayLoading)
