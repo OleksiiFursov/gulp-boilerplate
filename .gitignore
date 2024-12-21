@@ -6,4 +6,4 @@ package-lock.json
 /pwa
 /ssl/key.key
 /ssl/cert.crt
-.env
+/.env

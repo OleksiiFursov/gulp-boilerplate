@@ -2,13 +2,13 @@ import SFTPClient from "ssh2-sftp-client";
 import fs from "fs/promises";
 import path from "path";
 import config from "../config.js";
-import { getBuildDir } from "../core/tools.js";
+import {getBuildDir} from "../core/tools.js";
 import {colorLog, makeSize} from "./utils.js";
 import pLimit from 'p-limit';
 
 
 // Конфигурация
-const { HOST, USER, PASSWORD, REMOTE_DIR, PORT = 22, INCLUDED_DIR, LIMIT=3 } = config.SFTP;
+const {HOST, USER, PASSWORD, REMOTE_DIR, PORT = 22, INCLUDED_DIR, LIMIT = 3} = config.SFTP;
 
 const limit = pLimit(LIMIT);
 
@@ -18,16 +18,17 @@ const stats = {
     uploadSize: 0,
     skip: 0
 }
+
 async function uploadDirectory(client, localDir, remoteDir) {
 
-    if(INCLUDED_DIR !== 'all'){
-        if(!INCLUDED_DIR(localDir.replace(config.FOLDER_BUILD.replace(/^\.\//, '')+'\\', ''))){
+    if (INCLUDED_DIR !== 'all') {
+        if (!INCLUDED_DIR(localDir.replace(config.FOLDER_BUILD.replace(/^\.\//, '') + '\\', ''))) {
             return 0;
         }
     }
     await ensureRemoteDir(client, remoteDir);
 
-    const files = await fs.readdir(localDir, { withFileTypes: true });
+    const files = await fs.readdir(localDir, {withFileTypes: true});
 
     const uploadPromises = [];
 
@@ -94,8 +95,8 @@ async function shouldUploadFile(client, localPath, remotePath) {
         const isNew = localStats.size !== remoteStats.size ||
             localStats.mtime > new Date(remoteStats.mtime);
 
-        if(isNew){
-            stats.uploadSize+=localStats.size;
+        if (isNew) {
+            stats.uploadSize += localStats.size;
         }
         return isNew;
     } catch (err) {
@@ -120,7 +121,7 @@ async function main() {
 
         await uploadDirectory(client, getBuildDir(), REMOTE_DIR);
 
-        colorLog('green', '\nUploaded files:', stats.uploaded,  '('+makeSize(stats.uploadSize)+')');
+        colorLog('green', '\nUploaded files:', stats.uploaded, '(' + makeSize(stats.uploadSize) + ')');
         colorLog('cyan', `Skipped files:`, stats.skip)
     } catch (err) {
         colorLog('red', "Deployment error:", err);

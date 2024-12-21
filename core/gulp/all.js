@@ -7,6 +7,7 @@ import clean from 'gulp-clean'
 import config from '../../config.js'
 import {getBuildDir, getSrcDir} from '../tools.js'
 
+
 task('clean', done => {
     if (fs.existsSync(getBuildDir())) {
         return src(getBuildDir(), {read: false})
@@ -14,22 +15,25 @@ task('clean', done => {
     }
     done()
 })
-task('fonts', () =>
-    src(getSrcDir('fonts/**/*'), {encoding: false, dot: true})
-        .pipe(changed(getBuildDir('fonts/')))
-        .pipe(dest(getBuildDir('fonts/'))))
-
+task('fonts', () => src(getSrcDir('fonts/**/*'), {encoding: false, dot: true})
+    .pipe(changed(getBuildDir('fonts/')))
+    .pipe(dest(getBuildDir('fonts/'))))
 task('files', async () => {
     const tasks = [];
-
+    const folders = config.FOLDER_COPY
     if (config.PWA && !fs.existsSync(getSrcDir('pwa'))) {
-        tasks.push(done => {
-            task('generate-favicon')(done);
+
+        tasks.push(() => {
+            return new Promise((resolve, reject) => {
+                task('generate-favicon')(resolve, reject);
+
+            });
         });
     }
-    const folders = config.PWA ? [...config.FOLDER_COPY, 'pwa'] : config.FOLDER_COPY
+
 
     for (const folder of folders) {
+
         tasks.push(() => {
             return new Promise((resolve, reject) => {
                 src(getSrcDir(folder + '/**/*'), {encoding: false})
@@ -39,13 +43,12 @@ task('files', async () => {
             });
         });
     }
-
-    await Promise.all(tasks.map(task => task()));
+    await Promise.race(tasks.map(task => task()));
 })
-task('generate-favicon', async (done) => {
+task('generate-favicon', async (done, reject) => {
     const logoPath = getSrcDir('img/cf-favicon.png')
     const configuration = {
-        path: getSrcDir('pwa'),
+        path: config.URL + '/pwa',
         appName: config.COMPANY_NAME,
         lang: config.LANG,
         appShortName: config.COMPANY_NAME_SHORT,
@@ -57,26 +60,19 @@ task('generate-favicon', async (done) => {
         start_url: config.PWA_START_URL,
         appleStatusBarStyle: config.PWA_APPLE_STATUS_BAR,
         version: config.VERSION,
-        sizes: [16],
         icons: {
-            android: true,
-            appleIcon: true,
-            favicons: true,
-            windows: true,
+            android: true, appleIcon: true, favicons: true, windows: true, //   sizes: [16, 32],
         },
 
     }
-
     if (fs.existsSync(logoPath)) {
+
         try {
             fs.mkdirSync(getSrcDir('pwa'))
 
             const {
-                images,
-                files,
-                html,
+                images, files, html,
             } = await favicons(logoPath, configuration)
-
             images.forEach(image => {
                 fs.writeFileSync(`${getSrcDir('pwa')}/${image.name}`, image.contents)
             })
@@ -85,7 +81,9 @@ task('generate-favicon', async (done) => {
             })
 
             fs.writeFileSync(getSrcDir('html/part/pwa.html'), html.join('\n'))
+            done();
         } catch (error) {
+            reject()
             console.log(error.message)
         }
 
