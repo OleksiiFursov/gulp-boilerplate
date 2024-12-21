@@ -4,6 +4,7 @@
 	"devDependencies": {
 		"@lmcd/gulp-dartsass": "^0.1.1",
 		"browser-sync": "^3.0.3",
+		"dotenv": "^16.4.7",
 		"favicons": "^7.2.0",
 		"gulp": "^5.0.0",
 		"gulp-changed": "^5.0.2",
@@ -25,9 +26,11 @@
 		"imagemin-webp": "^8.0.0",
 		"localtunnel": "^2.0.2",
 		"mkcert": "^3.2.0",
+		"p-limit": "^6.2.0",
 		"rimraf": "^6.0.1",
 		"sass": "^1.81.0",
 		"sharp": "^0.33.5",
+		"ssh2-sftp-client": "^11.0.0",
 		"style-loader": "^4.0.0"
 	},
 	"type": "module",
@@ -39,13 +42,15 @@
 		"generate-certificates": "node service/generate-certificates.js",
 		"resize-image": "node service/generate-certificates.js",
 		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
-		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i"
+		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i",
+		"deploy": "gulp build && node service/deploy.js"
 	},
 	"browserslist": [
 		"last 5 versions"
 	],
 	"dependencies": {
 		"@crossfox/css-start": "^1.0.14",
+		"basic-ftp": "^5.0.5",
 		"express": "^4.21.1"
 	}
 }

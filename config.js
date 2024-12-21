@@ -1,4 +1,8 @@
-const MODE = process.env.npm_lifecycle_event
+import {config} from "dotenv";
+config();
+
+const MODE = process.env.npm_lifecycle_event;
+
 export default {
 	TITLE: 'Crossfox core-boirplate',
 	URL: MODE === 'dev' ? '/': 'https://crossfox.dev',
@@ -24,6 +28,17 @@ export default {
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 	AUTHOR: 'Oleksii Fursov',
 
+	// DEPLOY:     https://github.com/mscdex/ssh2#user-content-client-methods
+	SFTP:{
+		HOST: process.env.SFTP_HOST,
+		PORT: process.env.SFTP_PORT,
+		USER: process.env.SFTP_USER,
+		PASSWORD: process.env.SFTP_PASSWORD,
+		REMOTE_DIR: process.env.SFTP_REMOTE_DIR,
+		LIMIT: 3,
+		INCLUDED_DIR: 'all', //'all', // all | callback (dir => dir !== 'folder')
+		INCLUDED_FILE: 'all' //'all', // all | callback
+	},
 
 	//DESIGNED:
 	THEME_BACKGROUND: '#111',
