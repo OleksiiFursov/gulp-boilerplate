@@ -1,7 +1,10 @@
 import {config} from "dotenv";
+import path from "path";
 config();
 
 const MODE = process.env.npm_lifecycle_event;
+
+const pathSSL = name => path.join(process.cwd(), 'ssl', name)
 
 export default {
 	TITLE: 'Crossfox core-boirplate',
@@ -56,6 +59,10 @@ export default {
 	FOLDER_COPY: ['files'],
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
+	SSL: {
+		key: pathSSL('localhost-key.pem'),
+		cert: pathSSL('localhost.pem')
+	},
 	PORT: 777,
 	GHOSTMODE:{
 		clicks: true,

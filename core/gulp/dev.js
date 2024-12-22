@@ -64,15 +64,15 @@ task('serve:dev', async () => {
 		notify: false,
 		logPrefix: "СrossFoxGulp",
 		ghostMode: config.GHOSTMODE,
-		rewriteRules: [
-			{
-				match: /test/g,
-				fn: function (req, res, match) {
-
-					return 'kittenz';
-				}
-			}
-		],
+		// rewriteRules: [
+		// 	{
+		// 		match: /test/g,
+		// 		fn: function (req, res, match) {
+		// 			console.log(req, res, match);
+		// 			return 'https://google.com';
+		// 		}
+		// 	}
+		// ],
 		// callbacks: {
 		// 	ready: function(err, bs) {
 		//
@@ -84,11 +84,10 @@ task('serve:dev', async () => {
 		// }
 
 	}
-	const CERT_DIR = path.join(process.cwd(), 'ssl')
-	if (config.HTTPS && fs.existsSync(CERT_DIR) && fs.existsSync(path.join(CERT_DIR, 'key.key')) && fs.existsSync(path.join(CERT_DIR, 'cert.crt'))) {
+	if (config.HTTPS && config.SSL) {
 		options.https = {
-			key: path.join(CERT_DIR, 'key.key'),
-			cert: path.join(CERT_DIR, 'cert.crt'),
+			key: config.SSL.key,
+			cert:config.SSL.cert,
 		}
 	}
 

@@ -22,18 +22,14 @@ task('files', async () => {
     const tasks = [];
     const folders = config.FOLDER_COPY
     if (config.PWA && !fs.existsSync(getSrcDir('pwa'))) {
-
-        tasks.push(() => {
-            return new Promise((resolve, reject) => {
-                task('generate-favicon')(resolve, reject);
-
-            });
+        folders.push('pwa');
+        await new Promise((resolve, reject) => {
+            task('generate-favicon')(resolve, reject);
         });
     }
 
 
     for (const folder of folders) {
-
         tasks.push(() => {
             return new Promise((resolve, reject) => {
                 src(getSrcDir(folder + '/**/*'), {encoding: false})
@@ -43,7 +39,7 @@ task('files', async () => {
             });
         });
     }
-    await Promise.race(tasks.map(task => task()));
+    await Promise.all(tasks.map(task => task()));
 })
 task('generate-favicon', async (done, reject) => {
     const logoPath = getSrcDir('img/cf-favicon.png')

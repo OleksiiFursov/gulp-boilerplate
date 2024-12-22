@@ -1,52 +1,50 @@
-import fs from 'fs'
-import { createCA, createCert } from 'mkcert'
-import os from 'os'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import config from '../config.js'
+import fs from "fs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import https from "https";
 
-const CERT_DIR = path.join(__dirname, 'ssl');
-const CERT_KEY = path.join(CERT_DIR, 'key.key');
-const CERT_CERT = path.join(CERT_DIR, 'cert.crt');
+import {execSync} from "child_process";
 
-const interfaces = os.networkInterfaces();
-let externalIp = '';
 
-for (let iface in interfaces) {
-	for (let alias of interfaces[iface]) {
-		if (alias.family === 'IPv4' && !alias.internal) {
-			externalIp = alias.address;
-			break;
+const DOMAIN = 'localhost';
+
+function generateCertificates() {
+	try {
+		// Проверяем, установлен ли mkcert
+		execSync('mkcert --help', { stdio: 'ignore' });
+
+		// Устанавливаем локальный корневой сертификат (если не установлен)
+		try {
+			execSync('mkcert -install', { stdio: 'inherit' });
+		} catch (error) {
+			console.log('Не удалось установить корневой сертификат. Запустите с правами администратора.');
+			process.exit(1);
 		}
+
+		// Генерируем сертификаты
+		execSync(`mkcert ${DOMAIN}`, { stdio: 'inherit' });
+		console.log(`Сертификаты для ${DOMAIN} успешно созданы.`);
+	} catch (error) {
+		console.error('mkcert не установлен. Установите его и повторите.');
+		process.exit(1);
 	}
 }
 
-if (!fs.existsSync(CERT_DIR)) {
-	fs.mkdirSync(CERT_DIR, { recursive: true });
+// Проверяем наличие сертификатов, иначе генерируем
+if (!fs.existsSync(`${DOMAIN}.pem`) || !fs.existsSync(`${DOMAIN}-key.pem`)) {
+	generateCertificates();
 }
 
-const ca = await createCA({
-	organization: config.COMPANY_NAME,
-	countryCode: config.LANG,
-	state: "Dev",
-	locality: "Dev",
-	validity: 365
-});
+// Запускаем сервер
+const options = {
+	key: fs.readFileSync(`${DOMAIN}-key.pem`),
+	cert: fs.readFileSync(`${DOMAIN}.pem`),
+};
 
-const cert = await createCert({
-	ca: { key: ca.key, cert: ca.cert },
-	domains: ["127.0.0.1", "localhost", externalIp],
-	validity: 365
-});
-
-
-if (!fs.existsSync(CERT_KEY) || !fs.existsSync(CERT_CERT)) {
-	fs.writeFileSync(CERT_CERT, cert.cert);
-	fs.writeFileSync(CERT_KEY, cert.key);
-}
-
-console.log(`Certificates generated at ${CERT_DIR}`);
-console.log(`External IP used: ${externalIp}`);
+https
+	.createServer(options, (req, res) => {
+		res.writeHead(200);
+		res.end('Hello, secure world!');
+	})
+	.listen(3000, () => {
+		console.log(`Сервер запущен на https://${DOMAIN}:3000`);
+	});
