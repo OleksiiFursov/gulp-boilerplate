@@ -14,7 +14,7 @@ onClick('header-burger', ()=>{
 onClick(/active-modal-(.+)/, (_, [modalName])=>{
 	const name = 'active-modal-'+modalName;
 	bc.add(name)
-	gtag('event', name)
+	//gtag('event', name)
 });
 
 onClick(/close-modal-(.+)/, (_, [modalName])=>{

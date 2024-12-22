@@ -9,6 +9,7 @@ const pathSSL = name => path.join(process.cwd(), 'ssl', name)
 export default {
 	TITLE: 'Crossfox core-boirplate',
 	URL: MODE === 'dev' ? '/': 'https://crossfox.dev',
+	BASEURL: true,
 	FOOTER_YEAR: new Date().getFullYear(),
 	LANG: 'en-US',
 	VERSION: '1.0',

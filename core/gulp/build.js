@@ -25,6 +25,7 @@ import {
       getSrcDir,
       plumberNotify,
 } from '../tools.js'
+import esBuild from "gulp-esbuild";
 
 
 task('html:build', async () =>
@@ -59,9 +60,17 @@ task('images:build', () =>
 )
 
 task('js:build', () =>
-  src(getSrcDir('js/*.js'))
-      .pipe(changed(getBuildDir('js/')))
-      .pipe(plumberNotify('JS'))
+    src(getSrcDir('/js/index.js'))
+        .pipe(plumberNotify('JS'))
+      .pipe(esBuild({
+          outfile: 'index.js',
+          bundle: true,
+          sourcemap: true,
+          format: 'iife',
+          target: 'es6',
+          define: { 'process.env.NODE_ENV': '"production"' },
+          minify: true,
+      }))
       .pipe(dest(getBuildDir('js/'))),
 );
 

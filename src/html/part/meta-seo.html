@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>@@title</title>
     <meta name="description" content="@@description">
-    <base href="@@URL" />
+    @@if (BASEURL){<base href="@@URL" />}
     @@if (typeof keywords !== 'undefined' && keywords !== "@@keywords"){<meta name="keywords" content="@@keywords">}
     <link rel="stylesheet" href="/css/main.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

@@ -1,10 +1,8 @@
 import { task, src, watch, dest } from 'gulp'
 import browserSync from 'browser-sync'
-import fs from 'fs'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
 import sourceMaps from 'gulp-sourcemaps'
-import path from 'path'
 import config from '../../config.js'
 import { sync } from '@lmcd/gulp-dartsass'
 import * as sass from 'sass'
@@ -47,6 +45,7 @@ task('js:dev', () =>
 	  sourcemap: true,
 	  format: 'iife',
 	  target: 'es6',
+	  define: { 'process.env.NODE_ENV': '"development"' },
   }))
   .pipe(dest(getBuildDir('js/')))
   .pipe(server.stream()),

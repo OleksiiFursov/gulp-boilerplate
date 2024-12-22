@@ -18,6 +18,7 @@ task('clean', done => {
 task('fonts', () => src(getSrcDir('fonts/**/*'), {encoding: false, dot: true})
     .pipe(changed(getBuildDir('fonts/')))
     .pipe(dest(getBuildDir('fonts/'))))
+
 task('files', async () => {
     const tasks = [];
     const folders = config.FOLDER_COPY
@@ -44,7 +45,7 @@ task('files', async () => {
 task('generate-favicon', async (done, reject) => {
     const logoPath = getSrcDir('img/cf-favicon.png')
     const configuration = {
-        path: config.URL + '/pwa',
+        path: '/pwa',
         appName: config.COMPANY_NAME,
         lang: config.LANG,
         appShortName: config.COMPANY_NAME_SHORT,
