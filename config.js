@@ -22,7 +22,7 @@ export default {
 	DAY_OF_WEEK: '"Monday","Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"',
 	OPENS: "09:00",
 	CLOSES: "17:00",
-	PRICE_RANGE: '$$$$',
+	PRICE_RANGE: '$$',
 
 	//API:
 	GOOGLE_ANALYTIC: null,
