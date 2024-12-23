@@ -1,3 +1,4 @@
 Install mkcert, there are instructions for macOS/Windows/Linux
-mkcert -install to create a local CA
+mkcert -install
+to create a local CA
 mkcert localhost 127.0.0.1 ::1 to create a trusted cert for localhost in the current directory

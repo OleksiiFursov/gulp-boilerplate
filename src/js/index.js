@@ -1,10 +1,22 @@
-import { init, $o, $e, onScroll, onClick, onClickHash } from './base.js'
-init();
+import { devLine, ga, init, onClick, onClickHash, onReady, onScroll } from './cfjs'
 
-onScroll('.ba', (p, e)=>{
-	console.log(1, p, e);
+devLine();
+
+init({
+	loadedAnimAfter: '.header',
+	onScrollThrottle:10,
+});
+
+
+onScroll('.ba', (_, p, el)=>{
+	el.style.opacity = p;
+	if(p>0.9){
+		console.log((p-0.9)*1000+'%');
+		el.style.translate = 0 - (p-0.9)*1000+'%';
+	}else{
+
+	}
 })
-
 
 
 onClick('header-burger', ()=>{
@@ -14,23 +26,24 @@ onClick('header-burger', ()=>{
 onClick(/active-modal-(.+)/, (_, [modalName])=>{
 	const name = 'active-modal-'+modalName;
 	bc.add(name)
-	//gtag('event', name)
+	ga('event', name)
 });
 
 onClick(/close-modal-(.+)/, (_, [modalName])=>{
 	bc.remove('active-modal-' + modalName);
-	gtag('event', 'close-modal-' + modalName);
+	ga('event', 'close-modal-' + modalName);
 });
+
 onClick('close-overlay', () =>{
 	bc.forEach(name => {
 		if (name.includes('active-modal')) {
 			bc.remove(name)
-			gtag('event', 'close-' + name.replace('active', ''))
+			ga('event', 'close-' + name.replace('active-', ''))
 		}
 	})
 })
 
-onClickHash('', ()=>{
+onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
 

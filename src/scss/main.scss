@@ -13,8 +13,9 @@
   font-size: $font-xxl;
 }
 .ba{
-  background-color: #f17938;
+  background-color: blueviolet;
   height: 60vh;
+  margin-top: -180vh;
 }
 .footer{
   background: $brand-color;
@@ -23,4 +24,5 @@
   bottom:0;
   left:0;
   width: 100%;
+  display: none;
 }

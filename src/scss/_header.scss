@@ -4,11 +4,16 @@
   @extend %pos-fix;
   transition: .4s;
   z-index: 9;
+  translate: 0 -100%;
+
   color: $bg-color;
   &>.container{
     @extend %flex-bt;
     padding: 2rem 0;
   }
+}
+.loaded .header{
+  translate: 0;
 }
 
 .header-logo {
