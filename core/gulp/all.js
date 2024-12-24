@@ -22,11 +22,13 @@ task('fonts', () => src(getSrcDir('fonts/**/*'), {encoding: false, dot: true})
 task('files', async () => {
     const tasks = [];
     const folders = config.FOLDER_COPY
-    if (config.PWA && !fs.existsSync(getSrcDir('pwa'))) {
+    if (config.PWA) {
         folders.push('pwa');
-        await new Promise((resolve, reject) => {
-            task('generate-favicon')(resolve, reject);
-        });
+        if(!fs.existsSync(getSrcDir('pwa'))) {
+            await new Promise((resolve, reject) => {
+                task('generate-favicon')(resolve, reject);
+            });
+        }
     }
 
 

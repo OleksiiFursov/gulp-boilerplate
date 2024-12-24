@@ -1,23 +1,13 @@
-import {devLine, ga, init, onClick, onClickHash, onReady, onScroll, onSwap, onSwipeMove} from './cfjs'
+import {devLine, ga, init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
 
 //devLine();
-
 init({
 	loadedAnimAfter: '.header',
 	onScrollThrottle:10,
 });
-
-
-onScroll('.ba', (_, p, el)=>{
-	el.style.opacity = p;
-	if(p>0.9){
-		console.log((p-0.9)*1000+'%');
-		el.style.translate = 0 - (p-0.9)*1000+'%';
-	}else{
-
-	}
+onReady(()=>{
+	vAnimRun('.footer', ()=>vAnimRun('#start'))
 })
-
 
 onClick('header-burger', ()=>{
 	bc.toggle('header-menu-active');
@@ -46,7 +36,3 @@ onClick('close-overlay', () =>{
 onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
-
-//onSwipeMove(console.log);
-
-//onSwap(console.log)

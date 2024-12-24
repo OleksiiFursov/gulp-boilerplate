@@ -2,20 +2,22 @@
 @use "base";
 @use "header";
 
+body{
+  background: $color-1;
+}
 #start{
   @extend %pos-full;
-  background: $color-1;
-  height:400dvh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   color: $color-2;
   font-size: $font-xxl;
-}
-.ba{
-  background-color: blueviolet;
-  height: 60vh;
-  margin-top: -180vh;
+  scale:0;
+  transition: .3s;
+  &.run{
+    scale:1;
+  }
 }
 .footer{
   background: $brand-color;
@@ -24,5 +26,9 @@
   bottom:0;
   left:0;
   width: 100%;
-  display: none;
+  translate: 0 100%;
+  transition: .4s;
+  &.run{
+    translate: 0;
+  }
 }
