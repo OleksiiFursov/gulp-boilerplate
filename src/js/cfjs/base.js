@@ -15,15 +15,19 @@ export const init = ({
 	mobileMaxWidth = 980,
 	onScrollThrottle = 10,
 	onMouseMoveThrottle = 10,
+    onSwipeMoveThrottle = 10,
 	loadedAnimAfter,
 } = {}) => {
 
 	$o('.page-top', e => {
-		bc[e.intersectionRatio === 0 ? 'add' : 'remove']('is-scroll')
+		bc.toggle('is-scroll', e.intersectionRatio === 0);
 	})
-	window.cfjsConfig.mobileMaxWidth = mobileMaxWidth
-	window.cfjsConfig.onScrollThrottle = onScrollThrottle
-	window.cfjsConfig.onMouseMoveThrottle = onMouseMoveThrottle
+	Object.assign(cfjsConfig, {
+		mobileMaxWidth,
+		onScrollThrottle,
+		onMouseMoveThrottle,
+		onSwipeMoveThrottle,
+	});
 
 	$e(window, 'load', () => {
 

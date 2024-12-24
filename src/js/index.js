@@ -1,6 +1,6 @@
-import { devLine, ga, init, onClick, onClickHash, onReady, onScroll } from './cfjs'
+import {devLine, ga, init, onClick, onClickHash, onReady, onScroll, onSwap, onSwipeMove} from './cfjs'
 
-devLine();
+//devLine();
 
 init({
 	loadedAnimAfter: '.header',
@@ -47,3 +47,6 @@ onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
 
+//onSwipeMove(console.log);
+
+//onSwap(console.log)
