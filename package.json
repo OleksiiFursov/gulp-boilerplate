@@ -31,7 +31,9 @@
 		"sass": "^1.81.0",
 		"sharp": "^0.33.5",
 		"ssh2-sftp-client": "^11.0.0",
-		"style-loader": "^4.0.0"
+		"style-loader": "^4.0.0",
+		"basic-ftp": "^5.0.5",
+		"express": "^4.21.1"
 	},
 	"type": "module",
 	"scripts": {
@@ -50,7 +52,6 @@
 	],
 	"dependencies": {
 		"@crossfox/css-start": "^1.0.14",
-		"basic-ftp": "^5.0.5",
-		"express": "^4.21.1"
+
 	}
 }
