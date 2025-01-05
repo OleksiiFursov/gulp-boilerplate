@@ -1,4 +1,4 @@
-import {$e, $each, isLoaded} from './base.js'
+import {$e, $each, detectDevice, isLoaded} from './base.js'
 import {debounce, throttle} from './utils.js'
 
 // Click:
@@ -99,13 +99,25 @@ const onResize = call => {
     onResizeParams.push(call)
 }
 
-$e(window, 'resize', debounce(e => {
-    window.isMob = innerWidth < window.cfjsConfig.mobileMaxWidth
+const onChangeResponseParams = [];
+export const onChangeResponse = call => {
+    onChangeResponseParams.push(call);
+}
+
+
+$e(window, 'resize', debounce((e) => {
+    const isMob = detectDevice();
+    if (isMob !== window.isMob) {
+        const key = isMob ? 'mob' : 'pc';
+        for (const call of onChangeResponseParams) {
+            call(e, key);
+        }
+        window.isMob = isMob;
+    }
     for (const call of onResizeParams) {
-        call(e)
+        call(e || {})
     }
 }))
-
 // onReady
 
 export const onReady = call => {
@@ -125,11 +137,11 @@ const onMouseMoveHandler = e => {
         call(e)
     }
 }
-const onSwapParams = [];
+const onSwipeParams = [];
 
-export function onSwap(call) {
-    onSwapParams.push(call)
-    if (onSwapParams.length>1) return
+export function onSwipe(call) {
+    onSwipeParams.push(call)
+    if (onSwipeParams.length > 1) return
     let touchStart = {x: 0, y: 0}, touchEnd = {x: 0, y: 0}, el = null;
 
     $e(d, "touchstart", e => {
@@ -163,7 +175,7 @@ export function onSwap(call) {
             direction.left = deltaX < 0;
             direction.right = deltaX > 0;
         }
-        for (const call of onSwapParams) {
+        for (const call of onSwipeParams) {
             call(el,
                 {
                     from: touchStart,
@@ -181,19 +193,19 @@ export function onSwipeMove(call) {
     onSwipeMoveParams.push(call);
     if (onSwipeMoveParams.length > 1) return;
 
-    let touchStart = { x: 0, y: 0 }, currentTouch = { x: 0, y: 0 }, el = null;
+    let touchStart = {x: 0, y: 0}, currentTouch = {x: 0, y: 0}, el = null;
 
     $e(d, "touchstart", (e) => {
         const touch = e.touches[0];
-        touchStart = { x: touch.clientX, y: touch.clientY };
-        currentTouch = { ...touchStart };
+        touchStart = {x: touch.clientX, y: touch.clientY};
+        currentTouch = {...touchStart};
         el = e.target;
 
     }, false);
 
     $e(d, "touchmove", throttle((e) => {
         const touch = e.touches[0];
-        currentTouch = { x: touch.clientX, y: touch.clientY };
+        currentTouch = {x: touch.clientX, y: touch.clientY};
 
         const targetElement = d.elementFromPoint(currentTouch.x, currentTouch.y);
 
@@ -204,5 +216,5 @@ export function onSwipeMove(call) {
                 over: targetElement,
             });
         }
-    }, window.cfjsConfig.onSwipeMoveThrottle) , false);
+    }, window.cfjsConfig.onSwipeMoveThrottle), false);
 }

@@ -3,7 +3,7 @@ import { rand } from './utils.js'
 
 export const animAfter = (el, call) => $e(el, 'transitionend', call)
 export const vAnim = (sel, call) => $each(sel, el => $v(el, call, true))
-export const vAnimRun = (el, call, parent = d) => {
+export const vAnimRun = (el, call=null, parent = d) => {
 	const $el = getElement(el, parent)
 	if (!$el) return 0
 	$el.classList.add('run')

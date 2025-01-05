@@ -60,7 +60,7 @@ task('generate-favicon', async (done, reject) => {
         appleStatusBarStyle: config.PWA_APPLE_STATUS_BAR,
         version: config.VERSION,
         icons: {
-            android: true, appleIcon: true, favicons: true, windows: true
+            android: true, appleIcon: true, favicons: true, windows: true, yandex: false
         },
 
     }

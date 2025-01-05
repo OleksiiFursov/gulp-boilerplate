@@ -24,7 +24,7 @@ export const plumberNotify = (title) => plumber({
 
 export function clearHTML (file) {
 	const content = file.contents.toString().replace(
-	  /(<script[^>]*>)(.*?)(<\/script>)/sg,
+		/(<script[^>]*>)(.*?)(<\/script>)/sg,
 		v => v.replace(/(\n|\s{2,})+/g, ' '))
 
 	file.contents = Buffer.from(content)
