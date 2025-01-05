@@ -1,4 +1,4 @@
-import {devLine, ga, init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
+import {ga, init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
 
 //devLine();
 init({
@@ -9,15 +9,16 @@ onReady(()=>{
 	vAnimRun('.footer', ()=>vAnimRun('#start'))
 })
 
+
 onClick('header-burger', ()=>{
 	bc.toggle('header-menu-active');
 });
 
-onClick(/active-modal-(.+)/, (_, [modalName])=>{
-	const name = 'active-modal-'+modalName;
-	bc.add(name)
-	ga('event', name)
+onClick(/modal-(active|close)-(.+)/, (e, [query, action]) => {
+	bc.toggle(query, action === 'active');
+	gtag('event', action)
 });
+
 
 onClick(/close-modal-(.+)/, (_, [modalName])=>{
 	bc.remove('active-modal-' + modalName);

@@ -8,7 +8,7 @@ import pLimit from 'p-limit';
 
 
 // Конфигурация
-const {HOST, USER, PASSWORD, REMOTE_DIR, PORT = 22, INCLUDED_DIR, LIMIT = 3} = config.SFTP;
+const {HOST, USER, PASSWORD, REMOTE_DIR, PORT = 22, INCLUDED_DIR, INCLUDED_FILE, LIMIT = 3} = config.SFTP;
 
 const limit = pLimit(LIMIT);
 
@@ -19,10 +19,12 @@ const stats = {
     skip: 0
 }
 
+const FOLDER_BUILD_NORMALIZE = config.FOLDER_BUILD.replace(/^\.\//, '')
+
 async function uploadDirectory(client, localDir, remoteDir) {
 
     if (INCLUDED_DIR !== 'all') {
-        if (!INCLUDED_DIR(localDir.replace(config.FOLDER_BUILD.replace(/^\.\//, '') + '\\', ''))) {
+        if (!INCLUDED_DIR(localDir.replace(FOLDER_BUILD_NORMALIZE + '\\', ''))) {
             return 0;
         }
     }
@@ -39,9 +41,14 @@ async function uploadDirectory(client, localDir, remoteDir) {
         if (file.isDirectory()) {
             await uploadDirectory(client, localPath, remotePath);
         } else {
+            if(INCLUDED_FILE !== 'all'){
+                if (!INCLUDED_FILE(localPath.replace(FOLDER_BUILD_NORMALIZE + '\\', ''))) {
+                    continue;
+                }
+            }
             const fileExists = await remoteFileExists(client, remotePath);
-
             if (fileExists) {
+
                 const shouldUpload = await shouldUploadFile(client, localPath, remotePath);
                 if (!shouldUpload) {
                     stats.skip++;
@@ -123,6 +130,13 @@ async function main() {
 
         colorLog('green', '\nUploaded files:', stats.uploaded, '(' + makeSize(stats.uploadSize) + ')');
         colorLog('cyan', `Skipped files:`, stats.skip)
+        if(typeof INCLUDED_FILE === 'function'){
+            colorLog('yellow', `INCLUDED FILES:`, 'use filter')
+        }
+        if(typeof INCLUDED_DIR === 'function'){
+            colorLog('yellow', `INCLUDED DIRS:`, 'use filter')
+        }
+
     } catch (err) {
         colorLog('red', "Deployment error:", err);
     } finally {

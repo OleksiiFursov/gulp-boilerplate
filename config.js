@@ -77,7 +77,6 @@ export default {
 		'!/html/part/*.html',
 		'!html/blocks/*.html',
 		'!/html/blocks/**/*.html',
-		'!/html/pages/**/*.html',
 	],
 	MODE
 }
