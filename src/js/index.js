@@ -1,6 +1,5 @@
-import {ga, init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
+import {init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
 
-//devLine();
 init({
 	loadedAnimAfter: '.header',
 	onScrollThrottle:10,
@@ -20,16 +19,11 @@ onClick(/modal-(active|close)-(.+)/, (e, [query, action]) => {
 });
 
 
-onClick(/close-modal-(.+)/, (_, [modalName])=>{
-	bc.remove('active-modal-' + modalName);
-	ga('event', 'close-modal-' + modalName);
-});
-
-onClick('close-overlay', () =>{
+onClick('overlay', () => {
 	bc.forEach(name => {
-		if (name.includes('active-modal')) {
+		if (name.includes('modal-active')) {
 			bc.remove(name)
-			ga('event', 'close-' + name.replace('active-', ''))
+			gtag('event', name.replace('active', 'close'))
 		}
 	})
 })

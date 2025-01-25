@@ -62,8 +62,9 @@ export const init = ({
 
 }
 export const isLoaded = new Promise(e => theLoaded = e)
-export const $ = (sel, p = d) => p.querySelector(sel)
+export const $ = (sel, p = d) => p.querySelector(sel);
 export const $$ = (sel, p = d) => p.querySelectorAll(sel)
+export const func = v=>1;
 export const getElement = (sel, p = d) => (typeof sel === 'string' ? $(sel, p) : sel)
 
 export const $each = (sel, call, p = d) => $$(sel, p).forEach(call)
