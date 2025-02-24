@@ -19,10 +19,18 @@ onClick(/modal-(active|close)-(.+)/, (e, [query, action]) => {
 });
 
 
-onClick('overlay', () => {
+onClick(/(overlay|close-modal)/, () => {
 	bc.forEach(name => {
 		if (name.includes('modal-active')) {
 			bc.remove(name)
+			const md = $("."+name.replace('-active-', '-'));
+			md.classList.forEach(clName => {
+				if(clName.startsWith('is-')){
+					setTimeout(()=>{
+						md.classList.remove(clName)
+					}, 300)
+				}
+			})
 			gtag('event', name.replace('active', 'close'))
 		}
 	})
