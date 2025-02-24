@@ -20,6 +20,11 @@ task('fonts', () => src(getSrcDir('fonts/**/*'), {encoding: false, dot: true})
     .pipe(dest(getBuildDir('fonts/'))))
 
 task('files', async () => {
+
+    // Public:
+    src(getSrcDir('public/**/*'), {encoding: false})
+    .pipe(dest(getBuildDir('')))
+
     const tasks = [];
     const folders = config.FOLDER_COPY
     if (config.PWA) {
