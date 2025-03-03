@@ -2,7 +2,7 @@ import {config} from "dotenv";
 import path from "path";
 config();
 
-const MODE = process.env.npm_lifecycle_event;
+const MODE = process.env.npm_lifecycle_event || 'dev';
 
 const pathSSL = name => path.join(process.cwd(), 'ssl', name)
 
