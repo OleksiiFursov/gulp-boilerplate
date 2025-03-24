@@ -1,4 +1,5 @@
-import { execSync } from 'child_process'
+import { exec } from 'child_process';
+import util from 'util';
 import fs from 'fs'
 import { task, src, watch, dest } from 'gulp'
 import browserSync from 'browser-sync'
@@ -61,12 +62,16 @@ task('js:dev', () =>
   .pipe(server.stream()),
 )
 
+const execPromise = util.promisify(exec)
 task('serve:dev', async () => {
+
+
 	if(config.SSL && !fs.existsSync(pathSSL('')) ){
 		try {
-			await execSync('npm run generate-certificates', { stdio: 'inherit' })
+			await execPromise('npm run generate-certificates', { stdio: 'inherit' })
 		} catch (error) {
 			console.error('Error generating certificates:', error)
+			return;
 		}
 	}
 

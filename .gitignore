@@ -6,3 +6,4 @@ package-lock.json
 /pwa
 /.env
 /src/pwa/
+/ssl/
