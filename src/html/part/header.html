@@ -1,8 +1,8 @@
-@@include('meta-seo.html', {title: "@@title", description: "@@description"})
+@@include('meta.html', {title: "@@title", description: "@@description"})
 <header class="header">
     <div class="header-container container">
         <div class="header-logo">
-            <a href="/">@@COMPANY_NAME</a>
+            <a href="@@URL">@@COMPANY_NAME</a>
         </div>
         <nav class="header-nav">
             <button type="button" data-action='header-burger' class="header-burger">
@@ -11,7 +11,7 @@
             <div class="header-nav-menu-wrap">
                 <div class="header-nav-menu-bg">
                     <ul class="header-nav-menu">
-                        <li><a href="/">Main page</a></li>
+                        <li><a href="@@URL">Main page</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#contacts">Contacts</a></li>

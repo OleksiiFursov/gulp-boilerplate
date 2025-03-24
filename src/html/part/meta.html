@@ -3,15 +3,30 @@
 <head>
     <meta charset="utf-8"/>
     <title>@@title</title>
-    <meta name="description" content="@@description">
+    @@if (typeof description !== 'undefined' && description !== "@@description"){  <meta name="description" content="@@description">}
     @@if (BASEURL){<base href="@@URL" />}
-    <link rel="stylesheet" href="/css/main.css"/>
+    @@if (typeof keywords !== 'undefined' && keywords !== "@@keywords"){<meta name="keywords" content="@@keywords">}
+    <link rel="stylesheet" href="@@URLcss/main.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="theme-color" content="@@THEME_COLOR">
     <meta name="viewport-fit" content="cover">
-    <meta name="author" content="@@AUTHOR">
-    <meta name="generator" content="Crossfox-gulp-boirplate-v2">
-    @@if(MODE === 'dev'){<link rel="icon" type="image/x-icon" href="/pwa/favicon.ico">} @@if(PWA && MODE !== 'dev'){ @@include('pwa.html')}
+    @@if(AUTHOR){<meta name="author" content="@@AUTHOR">}
+    <meta name="generator" content="Crossfox-gulp-boilerplate-v2">
+    @@if (SEO_OG){
+    <meta property="og:title" content="@@title">
+    <meta property="og:description" content="@@description">
+    }
+    @@if (SEO_OG && typeof image === 'undefined'){<meta name="og:image" content="@@BASEURL/pwa/apple-touch-startup-image-640x1136.png">}
+    @@if (SEO_OG && typeof image !== 'undefined'){<meta name="og:image" content="@@image">}
+    @@if (typeof url !== 'undefined'){ <meta property="og:url" content="@@url">}
+    @@if(SEO_TWITTER){
+        <meta name="twitter:domain" content="@@URL"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="@@title">
+        <meta name="twitter:description" content="@@description">
+    }
+    @@if (SEO_TWITTER && typeof image === 'undefined'){<meta name="twitter:image" content="@@URLpwa/apple-touch-startup-image-640x1136.png">}
+    @@if (SEO_TWITTER && typeof image !== 'undefined'){<meta name="twitter:image" content="@@image">}
+    @@if(MODE === 'dev'){<link rel="icon" type="image/x-icon" href="@@URLpwa/favicon.ico">} @@if(PWA && MODE !== 'dev'){ @@include('pwa.html')}
 </head>
 <body>
 <div class="page-top"></div>

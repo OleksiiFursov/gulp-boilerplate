@@ -1,5 +1,6 @@
 import notify from 'gulp-notify'
 import plumber from 'gulp-plumber'
+import path from 'path'
 import config from '../config.js'
 
 export const getBuildDir = (path = '') => `${config.FOLDER_BUILD}/${path}`
@@ -31,3 +32,4 @@ export function clearHTML (file) {
 }
 
 
+export const pathSSL = name => path.join(process.cwd(), 'ssl', name)

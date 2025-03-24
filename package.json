@@ -2,7 +2,7 @@
 	"author": "Oleksii Fursov",
 	"version": "2.0.0",
 	"devDependencies": {
-		"@lmcd/gulp-dartsass": "^0.1.1",
+		"@lmcd/gulp-dartsass": "^0.2.0-rc.0",
 		"browser-sync": "^3.0.3",
 		"dotenv": "^16.4.7",
 		"favicons": "^7.2.0",
@@ -28,11 +28,10 @@
 		"mkcert": "^3.2.0",
 		"p-limit": "^6.2.0",
 		"rimraf": "^6.0.1",
-		"sass": "^1.83.1",
+		"sass": "^1.86.0",
 		"sharp": "^0.33.5",
-		"ssh2-sftp-client": "^11.0.0",
+		"ssh2-sftp-client": "^12.0.0",
 		"style-loader": "^4.0.0",
-		"basic-ftp": "^5.0.5",
 		"express": "^4.21.2"
 	},
 	"type": "module",
@@ -41,11 +40,11 @@
 		"nvm-20": "nvm use 20",
 		"build": "gulp build",
 		"build-html-css-js": "gulp build-html-css-js",
-		"generate-certificates": "node service/generate-certificates.js",
-		"resize-image": "node service/generate-certificates.js",
+		"generate-certificates": "powershell.exe -WindowStyle Hidden -Command \"Start-Process node -ArgumentList 'core/service/generate-certificates.js' -Verb RunAs\"",
+		"resize-image": "node core/service/generate-certificates.js",
 		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
 		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i",
-		"deploy": "gulp build && node service/deploy.js"
+		"deploy": "gulp build && node core/service/deploy.js"
 	},
 	"browserslist": [
 		"last 5 versions"

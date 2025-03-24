@@ -1,11 +1,11 @@
-import {init, onClick, onClickHash, onReady, vAnimRun} from './cfjs'
+import { $, init, onClick, onClickHash, onReady, vAnimRun } from './cfjs'
 
 init({
 	loadedAnimAfter: '.header',
 	onScrollThrottle:10,
 });
 onReady(()=>{
-	vAnimRun('.footer', ()=>vAnimRun('#start'))
+	vAnimRun('.footer', ()=>vAnimRun('#hero'))
 })
 
 

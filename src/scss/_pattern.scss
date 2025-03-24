@@ -1,3 +1,17 @@
+@use 'variables' as *;
+@mixin isMobile {
+  @media (max-width: $width-mob) {
+    @content;
+  }
+}
+
+@mixin isDesktop {
+  @media (min-width: $width-mob) {
+    @content;
+  }
+}
+
+
 %pos-fix {
   position: fixed;
   top: 0;

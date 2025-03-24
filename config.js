@@ -1,33 +1,34 @@
 import {config} from "dotenv";
-import path from "path";
+import { pathSSL } from './core/tools.js'
 config();
 
 const MODE = process.env.npm_lifecycle_event || 'dev';
 
-const pathSSL = name => path.join(process.cwd(), 'ssl', name)
-
 export default {
-	TITLE: 'Crossfox core-boirplate',
-	URL: MODE === 'dev' ? '/': 'https://crossfox.dev',
-	BASEURL: true,
+	TITLE: 'Front-end Boilerplate by CrossFox.online',
+	URL: MODE === 'dev' ? '/': '',
+	BASEURL: false,
+	DOMAIN: 'localhost', // only name without protocol
 	FOOTER_YEAR: new Date().getFullYear(),
 	LANG: 'en-US',
 	VERSION: '1.0',
 
 	// COMPANY:
-	COMPANY_NAME: 'Crossfox.dev',
-	COMPANY_NAME_SHORT: 'Crossfox.dev',
-	COMPANY_DESCRIPTION: 'Crossfox core-boirplate',
+	COMPANY_NAME: 'dev.crossfox.online',
+	COMPANY_NAME_SHORT: 'dev.Crossfox.online',
+	COMPANY_DESCRIPTION: 'Front-end Boilerplate by CrossFox.online',
 	OPENING_HOURS: "Mo,Tu,We,Th,Fr,Sa,Su",
 	DAY_OF_WEEK: '"Monday","Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"',
 	OPENS: "09:00",
 	CLOSES: "17:00",
 	PRICE_RANGE: '$$',
-
+	SEO_OG: true,
+	SEO_TWITTER: true,
 	//API:
 	GOOGLE_ANALYTIC: null,
-
+	SCHEMA_ORG: false,
 	// CONTACTS:
+
 	EMAIL: 'alex@crossfox.dev',
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 	AUTHOR: 'Oleksii Fursov',
@@ -57,7 +58,7 @@ export default {
 	// SERVER:
 	FOLDER_BUILD: './build',
 	FOLDER_SOURCE: './src',
-	FOLDER_COPY: ['files'],
+	FOLDER_COPY: [],
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
 	SSL: {

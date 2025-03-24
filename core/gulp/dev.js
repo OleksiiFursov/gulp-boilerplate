@@ -1,58 +1,76 @@
-import {task, src, watch, dest} from 'gulp'
+import { execSync } from 'child_process'
+import fs from 'fs'
+import { task, src, watch, dest } from 'gulp'
 import browserSync from 'browser-sync'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
 import sourceMaps from 'gulp-sourcemaps'
 import config from '../../config.js'
-import {sync} from '@lmcd/gulp-dartsass'
+import { sync } from '@lmcd/gulp-dartsass'
 import * as sass from 'sass'
-import {getBuildDir, getConfig, getHtmlSrc, getSrcDir, plumberNotify} from '../tools.js'
+import {
+	getBuildDir,
+	getConfig,
+	getHtmlSrc,
+	getSrcDir,
+	pathSSL,
+	plumberNotify,
+} from '../tools.js'
 import esBuild from 'gulp-esbuild'
 
 const server = browserSync.create()
 
 task('html:dev', async () =>
-	src(getHtmlSrc())
-		.pipe(plumberNotify('HTML'))
-		.pipe(fileInclude({context: await getConfig()}))
-		.pipe(dest(getBuildDir()))
-		.pipe(server.stream()),
+  src(getHtmlSrc())
+  .pipe(plumberNotify('HTML'))
+  .pipe(fileInclude({ context: await getConfig() }))
+  .pipe(dest(getBuildDir()))
+  .pipe(server.stream()),
 )
 
 task('sass:dev', () =>
-	src(getSrcDir('scss/*.scss'))
-		.pipe(plumberNotify('SCSS'))
-		.pipe(sourceMaps.init())
-		.pipe(sync(sass))
-		.pipe(sourceMaps.write('.'))
-		.pipe(dest(getBuildDir('css/')))
-		.pipe(server.stream()),
+  src(getSrcDir('scss/*.scss'))
+  .pipe(plumberNotify('SCSS'))
+  .pipe(sourceMaps.init())
+  .pipe(sync(sass))
+  .pipe(sourceMaps.write('.'))
+  .pipe(dest(getBuildDir('css/')))
+  .pipe(server.stream()),
 )
 
 task('images:dev', () =>
-	src(getSrcDir('img/**/*'), {encoding: false})
-		.pipe(changed(getBuildDir('img/')))
-		.pipe(dest(getBuildDir('img/')))
-		.pipe(server.stream()),
+  src(getSrcDir('img/**/*'), { encoding: false })
+  .pipe(changed(getBuildDir('img/')))
+  .pipe(dest(getBuildDir('img/')))
+  .pipe(server.stream()),
 )
 
 task('js:dev', () =>
-	src(getSrcDir('/js/index.js'))
-		.pipe(plumberNotify('JS'))
-		.pipe(esBuild({
-			outfile: 'index.js',
-			bundle: true,
-			sourcemap: true,
-			format: 'iife',
-			target: 'es6',
-			charset: 'utf8',
-			define: {'process.env.NODE_ENV': '"development"'},
-		}))
-		.pipe(dest(getBuildDir('js/')))
-		.pipe(server.stream()),
+  src(getSrcDir('/js/index.js'))
+  .pipe(plumberNotify('JS'))
+  .pipe(esBuild({
+	  outfile: 'index.js',
+	  bundle: true,
+	  sourcemap: true,
+	  format: 'iife',
+	  target: 'es6',
+	  charset: 'utf8',
+	  define: { 'process.env.NODE_ENV': '"development"' },
+  }))
+  .pipe(dest(getBuildDir('js/')))
+  .pipe(server.stream()),
 )
 
 task('serve:dev', async () => {
+	if(config.SSL && !fs.existsSync(pathSSL('')) ){
+		try {
+			await execSync('npm run generate-certificates', { stdio: 'inherit' })
+		} catch (error) {
+			console.error('Error generating certificates:', error)
+		}
+	}
+
+
 	const options = {
 		server: {
 			baseDir: getBuildDir(),
@@ -62,7 +80,7 @@ task('serve:dev', async () => {
 		https: config.HTTPS,
 		tunnel: config.TUNNEL,
 		notify: false,
-		logPrefix: "СrossFoxGulp",
+		logPrefix: 'СrossFoxGulp',
 		ghostMode: config.GHOSTMODE,
 		// rewriteRules: [
 		// 	{
