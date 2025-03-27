@@ -1,5 +1,5 @@
 import {
-	$, $$, $each,
+	$, $$, $each, $v,
 	init,
 	onClick,
 	onClickHash,
@@ -50,7 +50,9 @@ onClickHash(()=>{
 export const vAnimList = (sel, delay = 100, child = null) => {
 	$each(sel, el => {
 		const children = !child ? el.children : $$(child, el)
-		console.log(2, getComputedStyle(children[0]).transition)
+		for(const el of children) {
+			el.classList.add('run')
+		}
 
 	})
 
