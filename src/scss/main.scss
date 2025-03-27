@@ -36,3 +36,32 @@ body {
     translate: 0;
   }
 }
+
+.loaded {
+  .anim {
+    opacity: 0;
+    translate: 3vw 0;
+    transition: .3s $anim-func;
+
+    &.run {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+}
+
+
+.list {
+  margin: 70vh 0;
+  font-size: 2em;
+  color: #fff;
+
+  li {
+    color: #fff;
+    transition: 1s all;
+
+    &:hover {
+      color: red;
+    }
+  }
+}

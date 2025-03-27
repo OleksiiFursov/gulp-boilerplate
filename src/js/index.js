@@ -47,3 +47,14 @@ onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
 
+export const vAnimList = (sel, delay = 100, child = null) => {
+	$each(sel, el => {
+		const children = !child ? el.children : $$(child, el)
+		console.log(2, getComputedStyle(children[0]).transition)
+
+	})
+
+}
+
+
+vAnimList('.list')
