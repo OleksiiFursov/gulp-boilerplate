@@ -7,7 +7,6 @@ import clean from 'gulp-clean'
 import config from '../../config.js'
 import {getBuildDir, getSrcDir} from '../tools.js'
 
-
 task('clean', done => {
     if (fs.existsSync(getBuildDir())) {
         return src(getBuildDir(), {read: false})
@@ -49,10 +48,11 @@ task('files', async () => {
     }
     await Promise.all(tasks.map(task => task()));
 })
-task('generate-favicon', async (done, reject) => {
+const fn = () => {}
+task('generate-favicon', async (done=fn, reject=fn) => {
     const logoPath = getSrcDir('img/cf-favicon.png')
     const configuration = {
-        path: '/pwa',
+        path: config.URL+'pwa',
         appName: config.COMPANY_NAME,
         lang: config.LANG,
         appShortName: config.COMPANY_NAME_SHORT,
@@ -69,14 +69,18 @@ task('generate-favicon', async (done, reject) => {
         },
 
     }
+
     if (fs.existsSync(logoPath)) {
 
         try {
-            fs.mkdirSync(getSrcDir('pwa'))
+            if (!fs.existsSync(getSrcDir('pwa'))) {
+                fs.mkdirSync(getSrcDir('pwa'))
+            }
 
             const {
                 images, files, html,
             } = await favicons(logoPath, configuration)
+
             images.forEach(image => {
                 fs.writeFileSync(`${getSrcDir('pwa')}/${image.name}`, image.contents)
             })

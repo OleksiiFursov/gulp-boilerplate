@@ -1,8 +1,8 @@
 import SFTPClient from "ssh2-sftp-client";
 import fs from "fs/promises";
 import path from "path";
-import config from "../config.js";
-import {getBuildDir} from "../core/tools.js";
+import config from "../../config.js";
+import {getBuildDir} from "../tools.js";
 import {colorLog, makeSize} from "./utils.js";
 import pLimit from 'p-limit';
 

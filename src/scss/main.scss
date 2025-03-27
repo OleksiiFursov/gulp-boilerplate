@@ -2,10 +2,11 @@
 @use "base";
 @use "header";
 
-body{
+body {
   background: $color-1;
 }
-#hero{
+
+#hero {
   @extend %pos-full;
   height: 100vh;
   display: flex;
@@ -13,22 +14,25 @@ body{
   justify-content: center;
   color: $color-2;
   font-size: $font-xxl;
-  scale:0;
+  scale: 0;
   transition: .3s;
-  &.run{
-    scale:1;
+
+  &.run {
+    scale: 1;
   }
 }
-.footer{
+
+.footer {
   background: $brand-color;
   text-align: center;
   position: fixed;
-  bottom:0;
-  left:0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   translate: 0 100%;
   transition: .4s;
-  &.run{
+
+  &.run {
     translate: 0;
   }
 }

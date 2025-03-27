@@ -4,10 +4,11 @@ config();
 
 const MODE = process.env.npm_lifecycle_event || 'dev';
 
-export default {
+
+
+const configCompany = {
 	TITLE: 'Front-end Boilerplate by CrossFox.online',
 	URL: MODE === 'dev' ? '/': '',
-	BASEURL: false,
 	DOMAIN: 'localhost', // only name without protocol
 	FOOTER_YEAR: new Date().getFullYear(),
 	LANG: 'en-US',
@@ -32,7 +33,15 @@ export default {
 	EMAIL: 'alex@crossfox.dev',
 	PHONE: '<a href="tel:123456789">+1 234 567 89</a>',
 	AUTHOR: 'Oleksii Fursov',
+	//DESIGNED:
+	THEME_BACKGROUND: '#111',
+	THEME_COLOR: '#ff9800',
+};
 
+
+export default {
+	...configCompany,
+	BASEURL: false,
 	// DEPLOY:     https://github.com/mscdex/ssh2#user-content-client-methods
 	SFTP:{
 		HOST: process.env.SFTP_HOST,
@@ -45,9 +54,7 @@ export default {
 		INCLUDED_FILE: 'all' //'all', // all | callback
 	},
 
-	//DESIGNED:
-	THEME_BACKGROUND: '#111',
-	THEME_COLOR: '#ff9800',
+
 
 	PWA: true,
 	PWA_DISPLAY: 'standalone', //https://developer.mozilla.org/en-US/docs/Web/Manifest/display
@@ -61,6 +68,7 @@ export default {
 	FOLDER_COPY: [],
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
+	GENERATE_SSL: true,
 	SSL: {
 		key: pathSSL('localhost-key.pem'),
 		cert: pathSSL('localhost.pem')

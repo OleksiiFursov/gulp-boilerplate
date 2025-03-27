@@ -3,8 +3,8 @@
         All rights reserved. @@FOOTER_YEAR @@COMPANY_NAME
     </p>
 </footer>
-<script src="@@URLjs/index.js"></script>
-@@if(SCHEMA_ORG){
+<script src="/js/index.js"></script>
+
 <script type="application/ld+json">{
     "@context": "http://schema.org",
     "@type": "Organization",
@@ -18,7 +18,7 @@
     "@type": "LocalBusiness",
     "@id": "@@URL",
     "name": "@@COMPANY_NAME",
-    "image": "@@URLimg/logo/icon-192x192.png",
+    "image": "@@URL/img/logo/icon-192x192.png",
     "openingHours": "@@OPENING_HOURS @@OPENS-@@CLOSES",
     "openingHoursSpecification": [{
         "@type": "OpeningHoursSpecification",
@@ -28,7 +28,6 @@
     }],
     "priceRange": "@@PRICE_RANGE"
 }</script>
-}
 @@if(GOOGLE_ANALYTIC !== null){
 <script async src="https://www.googletagmanager.com/gtag/js?id=@@GOOGLE_ANALYTIC"></script>
 <script>

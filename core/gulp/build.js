@@ -43,8 +43,9 @@ task('sass:build', () =>
         .pipe(changed(getBuildDir('css/')))
         .pipe(plumberNotify('SCSS'))
         .pipe(sourceMaps.init())
-        .pipe(sync(sass))
-        .pipe(mediaQuery())
+        .pipe(sync(sass)({
+            additionalData: `@import "${getSrcDir('scss/_variables.scss')}"; @import "${getSrcDir('scss/_mixins.scss')}";`
+        }))
         .pipe(sourceMaps.write('.'))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(dest(getBuildDir('css/')))

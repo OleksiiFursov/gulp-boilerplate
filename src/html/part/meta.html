@@ -19,10 +19,10 @@
     @@if (SEO_OG && typeof image !== 'undefined'){<meta name="og:image" content="@@image">}
     @@if (typeof url !== 'undefined'){ <meta property="og:url" content="@@url">}
     @@if(SEO_TWITTER){
-        <meta name="twitter:domain" content="@@URL"/>
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="@@title">
-        <meta name="twitter:description" content="@@description">
+    <meta name="twitter:domain" content="@@URL"/>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@@title">
+    <meta name="twitter:description" content="@@description">
     }
     @@if (SEO_TWITTER && typeof image === 'undefined'){<meta name="twitter:image" content="@@URLpwa/apple-touch-startup-image-640x1136.png">}
     @@if (SEO_TWITTER && typeof image !== 'undefined'){<meta name="twitter:image" content="@@image">}

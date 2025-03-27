@@ -1,7 +1,7 @@
-import { exec } from 'child_process';
-import util from 'util';
+import { exec } from 'child_process'
+import util from 'util'
 import fs from 'fs'
-import { task, src, watch, dest } from 'gulp'
+import { task, src, watch, dest, series} from 'gulp'
 import browserSync from 'browser-sync'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
@@ -65,16 +65,13 @@ task('js:dev', () =>
 const execPromise = util.promisify(exec)
 task('serve:dev', async () => {
 
-
-	if(config.SSL && !fs.existsSync(pathSSL('')) ){
+	if (config.GENERATE_SSL && !fs.existsSync(pathSSL(''))) {
 		try {
 			await execPromise('npm run generate-certificates', { stdio: 'inherit' })
 		} catch (error) {
 			console.error('Error generating certificates:', error)
-			return;
 		}
 	}
-
 
 	const options = {
 		server: {
@@ -107,20 +104,34 @@ task('serve:dev', async () => {
 		// }
 
 	}
-	if (config.HTTPS && config.SSL) {
-		options.https = {
-			key: config.SSL.key,
-			cert: config.SSL.cert,
+
+	let attempts = 50
+
+	const timer = setInterval(() => {
+
+		if (config.GENERATE_SSL && !fs.existsSync(config.SSL.key)) {
+			attempts--
+			if (attempts > 0) return
+
+		} else {
+			if (config.HTTPS && config.SSL) {
+				options.https = {
+					key: config.SSL.key,
+					cert: config.SSL.cert,
+				}
+			}
 		}
-	}
 
-	server.init(options)
+		server.init(options)
 
-	watch(getSrcDir('scss/**/*.scss'), task('sass:dev'))
-	watch(getSrcDir('html/**/*.html'), task('html:dev')).on('change', server.reload)
-	watch(getSrcDir('img/**/*'), task('images:dev')).on('change', server.reload)
-	watch(getSrcDir('fonts/**/*'), task('fonts:dev')).on('change', server.reload)
-	watch(getSrcDir('/js/**/*.js'), task('js:dev'))
-	watch('./config.js', task('html:dev')).on('change', server.reload)
+		watch(getSrcDir('scss/**/*.scss'), task('sass:dev'))
+		watch(getSrcDir('html/**/*.html'), task('html:dev')).on('change', server.reload)
+		watch([getSrcDir('img/**/*'), `!${getSrcDir('img/cf-favicon.png')}`], task('images:dev')).on('change', server.reload)
+		watch(getSrcDir('fonts/**/*'), task('fonts:dev')).on('change', server.reload)
+		watch(getSrcDir('/js/**/*.js'), task('js:dev'))
+		watch(getSrcDir('img/cf-favicon.png'), series('generate-favicon', 'files')).on('change', ()=>{setTimeout(server.reload, 4000)})
+		watch('./config.js', task('html:dev')).on('change', server.reload)
+		clearInterval(timer)
+	}, 1000 / attempts)
 })
 

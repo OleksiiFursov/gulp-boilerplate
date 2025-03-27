@@ -1,4 +1,11 @@
-import { $, init, onClick, onClickHash, onReady, vAnimRun } from './cfjs'
+import {
+	$, $$, $each,
+	init,
+	onClick,
+	onClickHash,
+	onReady,
+	vAnimRun,
+} from '../../core/cfjs'
 
 init({
 	loadedAnimAfter: '.header',
@@ -39,3 +46,4 @@ onClick(/(overlay|close-modal)/, () => {
 onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
+
