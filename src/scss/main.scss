@@ -49,19 +49,3 @@ body {
     }
   }
 }
-
-
-.list {
-  margin: 70vh 0;
-  font-size: 2em;
-  color: #fff;
-
-  li {
-    color: #fff;
-    transition: .5s all;
-
-    &:hover {
-      color: red;
-    }
-  }
-}

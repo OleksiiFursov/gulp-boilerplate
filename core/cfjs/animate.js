@@ -1,4 +1,4 @@
-import { $, $$, $e, $each, $v, getElement } from './base.js'
+import { $$, $e, $each, $v, getElement } from './base.js'
 import { rand } from './utils.js'
 
 export const animAfter = (el, call) => $e(el, 'transitionend', call)
@@ -10,6 +10,26 @@ export const vAnimRun = (el, call = null, parent = d) => {
 	call && animAfter(el, call)
 }
 export const randAnim = (el, className = 'run', min = 200, max = 1000) => setTimeout(() => el.classList.add(className), rand(min, max))
+
+
+export const vAnimList = (sel, delay = 100, child = null) => {
+	let q=0;
+	const call = el => {
+		q++;
+		setTimeout(()=>{
+			el.classList.add('run')
+			q--;
+		}, delay*q)
+
+	}
+	$each(sel, el => {
+		const children = !child ? el.children : $$(child, el)
+		for(const el of children) {
+			$v(el, call, true)
+		}
+
+	})
+}
 
 
 // Next version

@@ -1,5 +1,5 @@
 import {
-	$, $$, $each, $v,
+	$,
 	init,
 	onClick,
 	onClickHash,
@@ -46,17 +46,3 @@ onClick(/(overlay|close-modal)/, () => {
 onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
-
-export const vAnimList = (sel, delay = 100, child = null) => {
-	$each(sel, el => {
-		const children = !child ? el.children : $$(child, el)
-		for(const el of children) {
-			el.classList.add('run')
-		}
-
-	})
-
-}
-
-
-vAnimList('.list')

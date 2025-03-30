@@ -21,8 +21,8 @@ export const init = ({
                          onMouseMoveThrottle = 10,
                          onSwipeMoveThrottle = 10,
                          loadedAnimAfter,
-                         preloader=false,
-                         preloaderText ='Идет загрузка...'
+                         preloader = false,
+                         preloaderText = 'Идет загрузка...'
                      } = {}) => {
 
     $o('.page-top', e => {
@@ -31,12 +31,11 @@ export const init = ({
     // Preloader
 
     let preloaderTimer;
-    if(preloader){
+    if (preloader) {
         preloaderTimer = setTimeout(() => {
             $('.preloader').textContent = preloaderText
         }, 300);
     }
-
 
 
     Object.assign(cfjsConfig, {
@@ -49,7 +48,7 @@ export const init = ({
     $e(window, 'load', () => {
         setTimeout(() => {
             bc.add('loaded');
-            if(preloader)
+            if (preloader)
                 clearTimeout(preloaderTimer);
             if (loadedAnimAfter) {
                 animAfter(loadedAnimAfter, theLoaded)
@@ -64,7 +63,7 @@ export const init = ({
 export const isLoaded = new Promise(e => theLoaded = e)
 export const $ = (sel, p = d) => p.querySelector(sel);
 export const $$ = (sel, p = d) => p.querySelectorAll(sel)
-export const func = v=>1;
+export const func = () => 1;
 export const getElement = (sel, p = d) => (typeof sel === 'string' ? $(sel, p) : sel)
 
 export const $each = (sel, call, p = d) => $$(sel, p).forEach(call)
@@ -98,3 +97,42 @@ export const $v = (sel, call, once = false) => {
     })
 }
 
+export const css = (sel, prop, value=undefined, unit = 'rem') => {
+    const $el = getElement(sel);
+    const st =  getComputedStyle($el);
+    if(value === undefined) return st[prop];
+
+    if (!isNaN(value)) {
+        value += unit;
+    }
+    $el.style[prop] = value;
+}
+
+// export const icss = (sel, prop, value, unit='rem') => {
+//     const $el = getElement(sel);
+//     if(!$el.styleInit)
+//         $el.styleInit = {};
+//
+//     if (!$el.styleInit[prop]){
+//         $el.styleInit[prop] = css(sel, prop)
+//     }
+//
+//     return {
+//         set(prop, val) {
+//
+//             $el.style[prop] = val;
+//         }
+//     }
+// }
+// export const qCss = sel => {
+//     const $el = getElement(sel);
+//     $el.styleInit = {};
+//     return {
+//         set(prop, val) {
+//             if ($el.styleInit[prop]){
+//                 $el.styleInit[prop] = css(sel, prop)
+//             }
+//             $el.style[prop] = val;
+//         }
+//     }
+// }
