@@ -14,8 +14,8 @@ import webpHTML from 'gulp-webp-html'
 
 // SASS
 import * as sass from 'sass';
-import { sync } from '@lmcd/gulp-dartsass';
-import mediaQuery from 'gulp-group-css-media-queries';
+import gulpSass from 'gulp-sass'
+
 
 import {
     clearHTML,
@@ -43,7 +43,7 @@ task('sass:build', () =>
         .pipe(changed(getBuildDir('css/')))
         .pipe(plumberNotify('SCSS'))
         .pipe(sourceMaps.init())
-        .pipe(sync(sass)({
+        .pipe(gulpSass(sass)({
             additionalData: `@import "${getSrcDir('scss/_variables.scss')}"; @import "${getSrcDir('scss/_mixins.scss')}";`
         }))
         .pipe(sourceMaps.write('.'))

@@ -15,7 +15,7 @@ const configCompany = {
 	VERSION: '1.0',
 
 	// COMPANY:
-	COMPANY_NAME: 'dev.crossfox.online',
+	COMPANY_NAME: 'My company',
 	COMPANY_NAME_SHORT: 'dev.Crossfox.online',
 	COMPANY_DESCRIPTION: 'Front-end Boilerplate by CrossFox.online',
 	OPENING_HOURS: "Mo,Tu,We,Th,Fr,Sa,Su",
@@ -68,11 +68,11 @@ export default {
 	FOLDER_COPY: [],
 	SERVER_OPEN: false,//'external',
 	HTTPS: true,
-	GENERATE_SSL: true,
-	SSL: {
-		key: pathSSL('localhost-key.pem'),
-		cert: pathSSL('localhost.pem')
-	},
+	GENERATE_SSL: false,
+	// SSL: {
+	// 	key: pathSSL('localhost-key.pem'),
+	// 	cert: pathSSL('localhost.pem')
+	// },
 	PORT: 777,
 	GHOSTMODE:{
 		clicks: true,

@@ -1,4 +1,5 @@
 import { exec } from 'child_process'
+import gulpSass from 'gulp-sass'
 import util from 'util'
 import fs from 'fs'
 import { task, src, watch, dest, series} from 'gulp'
@@ -7,7 +8,6 @@ import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
 import sourceMaps from 'gulp-sourcemaps'
 import config from '../../config.js'
-import { sync } from '@lmcd/gulp-dartsass'
 import * as sass from 'sass'
 import {
 	getBuildDir,
@@ -33,7 +33,7 @@ task('sass:dev', () =>
   src(getSrcDir('scss/*.scss'))
   .pipe(plumberNotify('SCSS'))
   .pipe(sourceMaps.init())
-  .pipe(sync(sass))
+  .pipe(gulpSass(sass))
   .pipe(sourceMaps.write('.'))
   .pipe(dest(getBuildDir('css/')))
   .pipe(server.stream()),

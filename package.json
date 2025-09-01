@@ -1,53 +1,52 @@
 {
-	"author": "Oleksii Fursov",
-	"version": "2.0.0",
-	"devDependencies": {
-		"@lmcd/gulp-dartsass": "^0.2.0-rc.0",
-		"browser-sync": "^3.0.3",
-		"dotenv": "^16.4.7",
-		"favicons": "^7.2.0",
-		"gulp": "^5.0.0",
-		"gulp-changed": "^5.0.2",
-		"gulp-clean": "^0.4.0",
-		"gulp-cssnano": "^2.1.3",
-		"gulp-csso": "^4.0.1",
-		"gulp-esbuild": "^0.14.0",
-		"gulp-file-include": "^2.3.0",
-		"gulp-htmlclean": "^2.7.22",
-		"gulp-if": "^3.0.0",
-		"gulp-imagemin": "^9.1.0",
-		"gulp-notify": "^5.0.0",
-		"gulp-plumber": "^1.2.1",
-		"gulp-sourcemaps": "^3.0.0",
-		"gulp-webp-css": "^1.1.0",
-		"gulp-webp-html": "^1.0.2",
-		"gulp-webp-html-fix": "^1.0.3",
-		"imagemin-webp": "^8.0.0",
-		"localtunnel": "^2.0.2",
-		"mkcert": "^3.2.0",
-		"p-limit": "^6.2.0",
-		"rimraf": "^6.0.1",
-		"sass": "^1.86.0",
-		"ssh2-sftp-client": "^12.0.0",
-		"style-loader": "^4.0.0"
-	},
-	"type": "module",
-	"scripts": {
-		"dev": "gulp",
-		"nvm-20": "nvm use 20",
-		"build": "gulp build",
-		"build-html-css-js": "gulp build-html-css-js",
-		"generate-certificates": "powershell.exe -WindowStyle Hidden -Command \"Start-Process node -ArgumentList 'core/service/generate-certificates.js' -Verb RunAs\"",
-		"resize-image": "node core/service/generate-certificates.js",
-		"reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
-		"webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i",
-		"deploy": "gulp build && node core/service/deploy.js"
-	},
-	"browserslist": [
-		"last 5 versions"
-	],
-	"dependencies": {
-		"@crossfox/css-start": "^1.0.14"
-
-	}
+  "author": "Oleksii Fursov",
+  "version": "2.0.1",
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "dotenv": "^17.2.1",
+    "favicons": "^7.2.0",
+    "gulp": "^5.0.1",
+    "gulp-changed": "^5.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-csso": "^4.0.1",
+    "gulp-esbuild": "^0.14.1",
+    "gulp-file-include": "^2.3.0",
+    "gulp-htmlclean": "^2.7.22",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^9.1.0",
+    "gulp-notify": "^5.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^6.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-webp-css": "^1.1.0",
+    "gulp-webp-html": "^1.0.2",
+    "gulp-webp-html-fix": "^1.0.3",
+    "imagemin-webp": "^8.0.0",
+    "localtunnel": "^2.0.2",
+    "mkcert": "^3.2.0",
+    "p-limit": "^7.1.1",
+    "rimraf": "^6.0.1",
+    "sass": "^1.91.0",
+    "ssh2-sftp-client": "^12.0.1",
+    "style-loader": "^4.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "gulp",
+    "nvm-20": "nvm use 20",
+    "build": "gulp build",
+    "build-html-css-js": "gulp build-html-css-js",
+    "generate-certificates": "powershell.exe -WindowStyle Hidden -Command \"Start-Process node -ArgumentList 'core/service/generate-certificates.js' -Verb RunAs\"",
+    "resize-image": "node core/service/generate-certificates.js",
+    "reinstal-gulp": "npm uninstall -g gulp npm install -g gulp",
+    "webpack-fix": "rimraf node_modules && npm i && rimraf package-lock.json && npm cache verify && npm i",
+    "deploy": "gulp build && node core/service/deploy.js"
+  },
+  "browserslist": [
+    "last 5 versions"
+  ],
+  "dependencies": {
+    "@crossfox/css-start": "^1.0.14"
+  }
 }
