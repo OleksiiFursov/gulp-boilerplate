@@ -6,7 +6,6 @@ import { task, src, watch, dest, series} from 'gulp'
 import browserSync from 'browser-sync'
 import changed from 'gulp-changed'
 import fileInclude from 'gulp-file-include'
-import sourceMaps from 'gulp-sourcemaps'
 import config from '../../config.js'
 import * as sass from 'sass'
 import {
@@ -32,9 +31,7 @@ task('html:dev', async () =>
 task('sass:dev', () =>
   src(getSrcDir('scss/*.scss'))
   .pipe(plumberNotify('SCSS'))
-  .pipe(sourceMaps.init())
-  .pipe(gulpSass(sass))
-  .pipe(sourceMaps.write('.'))
+  .pipe(gulpSass(sass)())
   .pipe(dest(getBuildDir('css/')))
   .pipe(server.stream()),
 )
