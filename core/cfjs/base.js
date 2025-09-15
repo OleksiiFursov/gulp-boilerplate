@@ -66,7 +66,37 @@ export const $$ = (sel, p = d) => p.querySelectorAll(sel)
 export const func = () => 1;
 export const getElement = (sel, p = d) => (typeof sel === 'string' ? $(sel, p) : sel)
 
-export const $each = (sel, call, p = d) => $$(sel, p).forEach(call)
+
+
+
+export const interacted = {};
+const interactionPromise={};
+
+export function onUserInteraction(call, events=["click", "keydown", "mousemove", "touchstart", "scroll"]) {
+	return (() => {
+		const keys = events.sort().join();
+		if (interacted[keys]) return Promise.resolve();
+		if (!interactionPromise[keys]) {
+			interactionPromise[keys] = new Promise((resolve) => {
+				const handler = () => {
+					interacted[keys] = true;
+					$each(events, (ev) =>
+					  $eR(window, ev, handler)
+					);
+					resolve();
+				};
+
+				events.forEach((ev) =>
+				  $e(window, ev, handler, { once: true })
+				);
+			});
+		}
+
+		return interactionPromise[keys];
+	})().then(call);
+}
+
+export const $each = (sel, call, p = d) => (Array.isArray(sel) ? sel: $$(sel, p)).forEach(call)
 export const $o = (sel, func, params = {rootMargin: '0px', threshold: 0.2}) => {
     const el = getElement(sel)
     if (el) {
@@ -78,11 +108,15 @@ export const $o = (sel, func, params = {rootMargin: '0px', threshold: 0.2}) => {
     }
 }
 
-export const $e = (sel, type, call) => {
+export const $e = (sel, type, call, options) => {
     const el = typeof sel === 'string' ? $(sel) : sel
-    el && el.addEventListener(type, call)
+    el && el.addEventListener(type, call, options)
 }
 
+export const $eR = (sel, type, call) => {
+	const el = typeof sel === 'string' ? $(sel) : sel
+	el && el.removeEventListener(type, call)
+}
 export const $v = (sel, call, once = false) => {
     isLoaded.then(() => {
         let obs = $o(sel, e => {
