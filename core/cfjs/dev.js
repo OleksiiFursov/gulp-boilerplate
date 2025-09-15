@@ -6,7 +6,7 @@ function getRandomColor () {
 	let letters = '0123456789ABCDEF'
 	let color = '#'
 	for (let i = 0; i < 6; i++) {
-		color += letters[rand(0, 16)]
+		color += letters[rand(0, 15)]
 	}
 	return color
 }
@@ -37,7 +37,7 @@ export const devLine = () => {
 			} else {
 				const el = d.createElement('div')
 				el.className = 'cf-line'
-				el.style.cssText = 'left:' + e.clientX + 'px; background:' + getRandomColor() + '; '
+				el.style.cssText = 'left:' + e.clientX + 'px; background:' + getRandomColor() + ';'
 				body.append(el)
 			}
 

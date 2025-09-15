@@ -1,5 +1,5 @@
 import {
-	$,
+	$, devLine,
 	init,
 	onClick,
 	onClickHash,
@@ -47,3 +47,4 @@ onClick(/(overlay|close-modal)/, () => {
 onClickHash(()=>{
 	bc.remove('header-menu-active')
 })
+devLine();
