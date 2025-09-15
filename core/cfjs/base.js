@@ -22,7 +22,7 @@ export const init = ({
                          onSwipeMoveThrottle = 10,
                          loadedAnimAfter,
                          preloader = false,
-                         preloaderText = 'Идет загрузка...'
+                         preloaderText = 'Loading...'
                      } = {}) => {
 
     $o('.page-top', e => {
