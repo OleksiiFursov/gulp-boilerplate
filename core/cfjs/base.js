@@ -133,7 +133,7 @@ export const css = (sel, prop, value = undefined, unit = 'rem') => {
 	}
 
 	const exlProp = ['line-height', 'lineHeight', 'opacity', 'flex-grow', 'scale', 'zoom', 'flexGrow', 'flex', 'z-index', 'zIndex', 'order', 'orphans', 'widows', 'tab-size', 'tabSize', 'animation-iteration-count', 'animationIterationCount'];
-	if (typeof value === 'number' && value !== 0 && !exlProp.includes(value))
+	if (typeof value === 'number' && value !== 0 && !exlProp.includes(prop))
 	{
 		value += unit
 	}
