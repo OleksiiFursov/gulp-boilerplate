@@ -1,4 +1,4 @@
-import {$e, $each, detectDevice, isLoaded} from './base.js'
+import { $e, $each, detectDevice, getElement, isLoaded } from './base.js'
 import {debounce, throttle} from './utils.js'
 
 // Click:
@@ -125,9 +125,9 @@ export const onReady = call => {
 }
 
 const onMouseMoveParams = []
-export const onMouseMove = call => {
+export const onMouseMove = (parent, call) => {
     if (!onMouseMoveParams.length) {
-        $e(window, 'mousemove', throttle(onMouseMoveHandler, window.cfjsConfig.onMouseMoveThrottle))
+        $e(parent, 'mousemove', throttle(onMouseMoveHandler, window.cfjsConfig.onMouseMoveThrottle))
     }
     onMouseMoveParams.push(call)
 }
@@ -137,84 +137,92 @@ const onMouseMoveHandler = e => {
         call(e)
     }
 }
-const onSwipeParams = [];
+const onSwipeParams = new Map();
 
-export function onSwipe(call) {
-    onSwipeParams.push(call)
-    if (onSwipeParams.length > 1) return
-    let touchStart = {x: 0, y: 0}, touchEnd = {x: 0, y: 0}, el = null;
+export function onSwipe(parent, call) {
+	parent = getElement(parent);
+	let find = onSwipeParams.get(parent);
+	const values = find ? [...find, call]: [call]
+	onSwipeParams.set(parent, values);
+	if (values.length > 1) return;
 
-    $e(d, "touchstart", e => {
-        const touch = e.touches[0];
-        touchStart = {x: touch.clientX, y: touch.clientY};
-        el = e.target;
-    }, false);
-
-    $e(d, "touchend", e => {
-        const touch = e.changedTouches[0];
-        touchEnd = {x: touch.clientX, y: touch.clientY};
-
-        const deltaX = touchEnd.x - touchStart.x;
-        const deltaY = touchEnd.y - touchStart.y;
-        const absDeltaX = Math.abs(deltaX);
-        const absDeltaY = Math.abs(deltaY);
+	let start = { x: 0, y: 0 }, end = { x: 0, y: 0 }, el = null;
 
 
-        const threshold = 10;
-        const direction = {
-            top: deltaY < -threshold,
-            left: deltaX < -threshold,
-            right: deltaX > threshold,
-            bottom: deltaY > threshold,
-        };
+	$e(parent, "pointerdown", e => {
+		start = { x: e.clientX, y: e.clientY };
+		el = e.target;
+		el.setPointerCapture(e.pointerId);
+	}, false);
 
-        // Учитываем диагонали
-        if (absDeltaX > threshold && absDeltaY > threshold) {
-            direction.top = deltaY < 0;
-            direction.bottom = deltaY > 0;
-            direction.left = deltaX < 0;
-            direction.right = deltaX > 0;
-        }
-        for (const call of onSwipeParams) {
-            call(el,
-                {
-                    from: touchStart,
-                    to: touchEnd,
-                    direction,
-                });
-        }
+	$e(parent, "pointerup", e => {
+		end = { x: e.clientX, y: e.clientY };
 
-    }, false);
+		const deltaX = end.x - start.x;
+		const deltaY = end.y - start.y;
+		const absX = Math.abs(deltaX);
+		const absY = Math.abs(deltaY);
+
+		const threshold = 10;
+		const direction = {
+			top: deltaY < -threshold,
+			left: deltaX < -threshold,
+			right: deltaX > threshold,
+			bottom: deltaY > threshold,
+		};
+
+		if (absX > threshold && absY > threshold) {
+			direction.top = deltaY < 0;
+			direction.bottom = deltaY > 0;
+			direction.left = deltaX < 0;
+			direction.right = deltaX > 0;
+		}
+
+		for (const fn of values) {
+			fn(el, {
+				from: start,
+				to: end,
+				direction,
+			});
+		}
+	}, false);
 }
 
-const onSwipeMoveParams = [];
+const onSwipeMoveParams = new Map();
 
-export function onSwipeMove(call) {
-    onSwipeMoveParams.push(call);
-    if (onSwipeMoveParams.length > 1) return;
+export function onSwipeMove(parent, call) {
+	parent = getElement(parent);
+	let find = onSwipeMoveParams.get(parent);
+	const values = find ? [...find, call]: [call]
+	onSwipeMoveParams.set(parent, values);
+	if (values.length > 1) return;
 
-    let touchStart = {x: 0, y: 0}, currentTouch = {x: 0, y: 0}, el = null;
 
-    $e(d, "touchstart", (e) => {
-        const touch = e.touches[0];
-        touchStart = {x: touch.clientX, y: touch.clientY};
-        currentTouch = {...touchStart};
-        el = e.target;
+	let start = { x: 0, y: 0 }, to = { x: 0, y: 0 }, el = null;
 
-    }, false);
+	$e(parent, "pointerdown", e => {
+		start = { x: e.clientX, y: e.clientY };
+		to = { ...start };
+		el = e.target;
+		el.setPointerCapture(e.pointerId);
+	}, false);
 
-    $e(d, "touchmove", throttle((e) => {
-        const touch = e.touches[0];
-        currentTouch = {x: touch.clientX, y: touch.clientY};
+	$e(parent, "pointermove", throttle(e => {
+		if (!el) return;
 
-        const targetElement = d.elementFromPoint(currentTouch.x, currentTouch.y);
+		to = { x: e.clientX, y: e.clientY };
+		const over = document.elementFromPoint(to.x, to.y);
 
-        for (const call of onSwipeMoveParams) {
-            call(el, {
-                from: touchStart,
-                current: currentTouch,
-                over: targetElement,
-            });
-        }
-    }, window.cfjsConfig.onSwipeMoveThrottle), false);
+		for (const fn of values) {
+			fn(el, {
+				from: start,
+				to,
+				over,
+			});
+		}
+	}, window.cfjsConfig.onSwipeMoveThrottle), false);
+
+	$e(parent, "pointerup", e => {
+		el = null;
+	}, false);
 }

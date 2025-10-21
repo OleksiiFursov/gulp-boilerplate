@@ -88,7 +88,30 @@ export function onUserInteraction (call, events = ['click', 'keydown', 'mousemov
 		return interactionPromise[keys]
 	})().then(call)
 }
+const _setTimeLoop = new Map();
+export function setTimeLoop(callback, { duration, durationStep, id, onEnd = func, onStart = func }) {
+	let time = 0
+	const prev = _setTimeLoop.get(id)
+	if (prev) {
+		clearInterval(prev.timer)
+		prev.onEnd()
+	}
+	onStart();
 
+	const timer = setInterval(() => {
+		if (time >= duration) {
+			clearInterval(timer)
+			return onEnd()
+		}
+		callback()
+		time += durationStep
+	}, durationStep)
+
+	_setTimeLoop.set(id, {
+		timer,
+		onEnd,
+	})
+}
 export const $each = (sel, call, p = d) => (Array.isArray(sel) || sel instanceof NodeList ? sel : $$(sel, p)).forEach(call)
 export const $o = (sel, func, params = { rootMargin: '0px', threshold: 0.2 }) => {
 	const el = getElement(sel)
