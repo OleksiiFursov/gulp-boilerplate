@@ -120,9 +120,8 @@ $e(window, 'resize', debounce((e) => {
 }))
 // onReady
 
-export const onReady = call => {
-    isLoaded.then(call)
-}
+export const onReady = call => isLoaded.then(call)
+
 
 const onMouseMoveParams = []
 export const onMouseMove = (parent, call) => {
@@ -158,31 +157,31 @@ export function onSwipe(parent, call) {
 	$e(parent, "pointerup", e => {
 		end = { x: e.clientX, y: e.clientY };
 
-		const deltaX = end.x - start.x;
-		const deltaY = end.y - start.y;
-		const absX = Math.abs(deltaX);
-		const absY = Math.abs(deltaY);
+		const dX = end.x - start.x;
+		const dY = end.y - start.y;
+		const absX = Math.abs(dX);
+		const absY = Math.abs(dY);
 
 		const threshold = 10;
-		const direction = {
-			top: deltaY < -threshold,
-			left: deltaX < -threshold,
-			right: deltaX > threshold,
-			bottom: deltaY > threshold,
+		const dir = {
+			top: dY < -threshold,
+			left: dX < -threshold,
+			right: dX > threshold,
+			bottom: dY > threshold,
 		};
 
 		if (absX > threshold && absY > threshold) {
-			direction.top = deltaY < 0;
-			direction.bottom = deltaY > 0;
-			direction.left = deltaX < 0;
-			direction.right = deltaX > 0;
+			dir.top = dY < 0;
+			dir.bottom = dY > 0;
+			dir.left = dX < 0;
+			dir.right = dX > 0;
 		}
 
 		for (const fn of values) {
 			fn(el, {
 				from: start,
 				to: end,
-				direction,
+				direction: dir,
 			});
 		}
 	}, false);
