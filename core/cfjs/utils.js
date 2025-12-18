@@ -118,5 +118,14 @@ export function merge(target, ...sources) {
     return merge(target, ...sources);
 }
 
+export const randomize = (from, to, swaps = 30) => {
+    const res = Array.from({ length: to - from }, (_, i) => from + i)
+    const len = res.length - 1
+    for (let i = 0; i < swaps; i++) {
+        const [a, b] = [rand(0, len), rand(0, len)];
+        [res[a], res[b]] = [res[b], res[a]]
+    }
+    return res
+}
 
 export const clone = (obj) => structuredClone ? structuredClone(obj) : JSON.parse(JSON.stringify(obj));

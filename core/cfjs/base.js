@@ -1,4 +1,5 @@
 import { animAfter } from './animate.js'
+import { rand } from './utils.js'
 
 export let theLoaded
 
@@ -180,6 +181,14 @@ export const $ce = (name='div', attrs={}, body='') => {
 	$el.innerHTML = body;
 	return $el;
 }
+
+export const getIndexElementDom = (el)=>Array.prototype.indexOf.call(el.parentNode.children, el)
+export const insertElement  = (parent, el, index) => {
+	parent.insertBefore(el, parent.children[index])
+}
+// export 	isCollision (rect, x, y) {
+// 	return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom
+// }
 
 
 // export const icss = (sel, prop, value, unit='rem') => {
