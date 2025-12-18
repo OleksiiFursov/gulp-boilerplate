@@ -169,6 +169,18 @@ export const setCSS = (selector, props) => {
 		css($el, prop, props[prop]);
 	}
 }
+export const $ce = (name='div', attrs={}, body='') => {
+	const $el = d.createElement(name);
+	if(typeof attrs === 'string'){
+		attrs = attrs === '#' ? {id: attrs.slice(1)} : {className: attrs}
+	}
+	for (const attr in attrs) {
+		$el[attr] = attrs[attr];
+	}
+	$el.innerHTML = body;
+	return $el;
+}
+
 
 // export const icss = (sel, prop, value, unit='rem') => {
 //     const $el = getElement(sel);
